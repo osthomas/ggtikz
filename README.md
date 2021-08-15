@@ -12,14 +12,15 @@
 ggtikz allows you to annotate plots created using
 [ggplot2](https://ggplot2.tidyverse.org/) with arbitrary TikZ code when
 rendering them with the
-[tikzDevice](https://cran.r-project.org/web/packages/tikzDevice). The
+[tikzDevice](https://CRAN.R-project.org/package=tikzDevice). The
 annotations can be made using data coordinates, or with coordinates
 relative to a specified panel or the whole plot.
 
 Plots with multiple panels (via `facet_grid()` or `facet_wrap()`) are
 supported.
 
-For a few examples, see the [examples vignette](doc/examples.pdf).
+For a few examples, see the [examples
+vignette](https://github.com/osthomas/ggtikz/blob/main/doc/examples.pdf).
 
 ## Installation
 

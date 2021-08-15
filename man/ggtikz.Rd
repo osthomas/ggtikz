@@ -23,6 +23,7 @@ draws the plot and the annotations.
 For finer control, see \code{ggtikzCanvas()} and \code{ggtikzAnnotation()}.
 }
 \examples{
+\dontrun{
 library(ggplot2)
 library(tikzDevice)
 library(ggtikz)
@@ -32,6 +33,7 @@ tikz(out)
 # Add a red circle in the middle of the plot.
 ggtikz(p, "\\\\fill[red] (0.5,0.5) circle (2mm);", xy="plot")
 dev.off()
+}
 }
 \seealso{
 \code{\link{ggtikzCanvas}} for creating a canvas which can store multiple annotations.

@@ -1,12 +1,12 @@
 Package: ggtikz
-Title: Post-Process ggplots With TikZ Code Using Plot Coordinates
-Version: 0.0.0.9000
+Title: Post-Process 'ggplot2' Plots with 'TikZ' Code Using Plot Coordinates
+Version: 0.0.1
 Authors@R:
     person(given = "Oliver",
            family = "Thomas",
            role = c("aut", "cre"),
            email = "oliver.thomas@sgbm.uni-freiburg.de")
-Description: Using tikzDevice, TikZ code can be exported from R. Base graphs can subsequently be modified using the tikzAnnotate function. grid.tikzAnnotate is available, but coordinates are hard to get to correspond to data coordinates for annotation of ggplots. ggtikz facilitates annotation of ggplot2 plots with arbitrary TikZ code, using absolute data or relative plot coordinates.
+Description: Annotation of 'ggplot2' plots with arbitrary 'TikZ' code, using absolute data or relative plot coordinates.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
