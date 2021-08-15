@@ -1,0 +1,11 @@
+^LICENSE\.md$
+^doc$
+^Meta$
+^README\.Rmd$
+^example-vignette-figures$
+-tikzDictionary$
+\.aux$
+\.log$
+\.toc$
+\.tex$
+^\.github$

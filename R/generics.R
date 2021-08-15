@@ -1,0 +1,15 @@
+get_panel_info <- function(x, ...) UseMethod("get_panel_info")
+get_panel_range <- function(x, ...) UseMethod("get_panel_range")
+gg_to_npc <- function(x, ...) UseMethod("gg_to_npc")
+get_refpoints <- function(x, ...) UseMethod("get_refpoints")
+get_panel_index <- function(x, ...) UseMethod("get_panel_index")
+get_panel_viewport_name <- function(x, ...) UseMethod("get_panel_viewport_name")
+activate_panel <- function(x, ...) UseMethod("activate_panel")
+add_annotation_viewport <- function(x, ...) UseMethod("add_annotation_viewport")
+get_annotation_valid <- function(x, ...) UseMethod("get_annotation_valid")
+add_annotation <- function(x, ...) UseMethod("add_annotation")
+draw_annotation <- function(x, ...) UseMethod("draw_annotation")
+draw_annotations <- function(x, ...) UseMethod("draw_annotations")
+
+
+get_annotation_name <- function(x, ...) UseMethod("get_annotation_name")

@@ -1,0 +1,376 @@
+% !TEX TS-program = knitr
+% \VignetteIndexEntry{TikZ annotations for ggplots with the ggtikz package}
+% \VignetteDepends{tikzDevice}
+% \VignetteDepends{ggplot2}
+% \VignetteDepends{knitr}
+% \VignetteEngine{knitr::knitr}
+
+\documentclass{article}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+% A global tikz style, which will later be accessed from within R.
+\tikzset{loud/.style={
+    draw=yellow,
+    fill=red,
+    text=blue
+}}
+
+\begin{document}
+
+\title{TikZ annotations for ggplots with the ggtikz package}
+
+\maketitle
+
+\tableofcontents
+
+\section{Prerequisites}
+
+\subsection{LaTeX side}
+
+As the name implies, \verb|ggtikz| requires \verb|tikz|, which must be loaded in
+the document's preamble. Furthermore, the \verb|calc| tikz library is required.
+
+Thus, the preamble must contain:
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\end{lstlisting}
+
+\subsection{R side}
+The \verb|tikzDevice| package is required to render plots and \verb|ggtikz|
+annotations to the tikz format. We also have to make some base plots, using
+\verb|ggplot2|.
+
+Here, we set the graphics device to \verb|tikz| -- \verb|ggtikz| does not work
+with any other graphics device!
+
+<<setup>>=
+library(knitr)
+library(ggplot2)
+library(ggtikz)
+opts_chunk$set(
+    dev = "tikz",
+    external = TRUE,
+    fig.path = "example-vignette-figures/",
+    fig.width = 3,
+    fig.height = 3,
+    fig.align = "center"
+)
+@
+
+
+\section{Basic usage with \texttt{ggtikz()}}
+\label{basic}
+For simple one-step annotations, the \verb|ggtikz| helper function is available.
+
+It accepts a ggplot object as its first argument. Further arguments are passed
+on to \verb|ggtikzAnnotation| (see section~\ref{advanced}).
+
+<<basic-usage>>=
+p <- ggplot(mtcars, aes(disp, mpg)) + geom_point()
+ggtikz(p, "\\fill[red] (0.5,0.5) circle (2mm);", xy="plot")
+@
+
+\section{Advanced usage with canvases and annotations}
+\label{advanced}
+With \verb|ggtikz()|, only a single annotation can be added to a plot.
+If multiple annotations are needed, then we first need to create a
+\verb|ggtikzCanvas()|, to which one or more \verb|ggtikzAnnotation()| can be added.
+
+\subsection{Single-panel plots}
+
+Let's create a single-panel plot for annotation.
+
+<<single-panel-setup>>=
+p <- ggplot(mtcars, aes(disp, mpg)) + geom_point()
+@
+
+We can then set up an annotation canvas and add tikz annotations. Note that
+first, we print the base plot to the device
+\footnote{no explicit calls to \texttt{tikz()} and \texttt{dev.off()} are needed,
+because knitr opens and closes the device automatically.},
+and then the annotation canvas. The annotation canvas does not take care of
+drawing the annotated plot (the \verb|ggtikz()| helper does handle this with
+the \verb|draw = TRUE| parameter).
+
+\subsubsection{Annotation relative to the whole plot}
+
+<<single-panel-relative-plot>>=
+canvas <- ggtikzCanvas(p)
+annotation <- ggtikzAnnotation(
+    "
+    \\draw (0,0) -- (1,1);
+    \\draw (0,1) -- (1,0);
+    \\fill[red] (0.5,0.5) circle (2mm);
+    ",
+    xy = "plot"
+)
+p                    # first draw the plot
+canvas + annotation  # then draw the annotations
+@
+
+
+\subsubsection{Annotation relative to the panel}
+
+<<single-panel-relative-panel>>=
+canvas <- ggtikzCanvas(p)
+annotation <- ggtikzAnnotation(
+    "
+    \\draw (0,0) -- (1,1);
+    \\draw (0,1) -- (1,0);
+    \\fill[red] (0.5,0.5) circle (2mm);
+    ",
+    xy = "panel",
+    panelx = 1, panely = 1
+)
+p
+canvas + annotation
+@
+
+
+\subsubsection{Annotation relative to data coordinates}
+In addition to unitless tikz coordinates, you can also use absolute lengths,
+such as the 1~cm in the example below.
+
+<<single-panel-relative-data>>=
+canvas <- ggtikzCanvas(p)
+annotation <- ggtikzAnnotation(
+    "
+    \\draw[thick,red] (100,20) -| (400,15);
+    \\draw[<-] (153,24) -- ++(30:1cm) node[at end, anchor=south] {Interesting!};
+    ",
+    xy = "data",
+    panelx = 1, panely = 1
+)
+p
+canvas + annotation
+@
+
+\subsubsection{Mixing panel and data references}
+The reference frames for x and y coordinates can be separately assigned as
+\verb|data| or \verb|panel|. However, note that the \verb|plot| reference frame must be
+ given for both x and y directions (with the \verb|xy| argument), and cannot be mixed!
+
+ <<single-panel-mixed>>=
+canvas <- ggtikzCanvas(p)
+annotation <- ggtikzAnnotation(
+    "\\fill[red] (0.5,30) circle (2mm);",
+    x = "panel", y = "data",
+    panelx = 1, panely = 1
+)
+p
+canvas + annotation
+@
+
+
+\subsubsection{Turning off clipping}
+
+It is possible to turn off clipping for annotations, in order to draw outside of
+the plot area.
+
+ <<single-panel-clipping>>=
+canvas <- ggtikzCanvas(p)
+annotation_clip <- ggtikzAnnotation(
+    "\\fill[red] (0.1,0) circle (5mm);",
+    xy = "panel",
+    panelx = 1, panely = 1
+)
+
+annotation_unclip <- ggtikzAnnotation(
+    "\\fill[blue] (0.9,0) circle (5mm);",
+    xy = "panel",
+    panelx = 1, panely = 1,
+    clip = "off"
+)
+
+annotation_unclip2 <- ggtikzAnnotation(
+    "\\draw[thick, dashed] (0,0) -- (0.5,-0.2) -- (1,0);",
+    xy = "panel",
+    panelx = 1, panely = 1,
+    clip = "off"
+)
+p
+canvas + annotation_clip + annotation_unclip + annotation_unclip2
+@
+
+However, note that the surrounding plot area is not automatically unclipped to
+accommodate for the annotations. This can be alleviated manually by increasing the
+plot margins.
+
+<<single-panel-clipping2>>=
+p + theme(plot.margin = margin(t=0.5, b = 1, unit = "cm"))
+canvas + annotation_clip + annotation_unclip + annotation_unclip2
+@
+
+
+\subsection{Multi-panel plots: wrap}
+
+<<wrap-setup>>=
+p_wrap <- p + facet_wrap(~cyl, scales="free", ncol=2)
+@
+
+
+\subsubsection{Annotations in separate panels, relative to data or panel coordinates}
+
+<<wrap1>>=
+canvas <- ggtikzCanvas(p_wrap)
+
+# Relative to data coordinates
+annotation1 <- ggtikzAnnotation(
+    "
+    \\node[pin={90:(110,27)}, circle, fill=red,
+        inner sep=0, outer sep=0, minimum size=2pt]
+        at (110,27)
+        {};
+    ",
+    xy = "data",
+    panelx = 1, panely = 1
+)
+
+# Relative to data coordinates
+annotation2 <- ggtikzAnnotation(
+    "
+    \\node[pin={90:(200,19)}, circle, fill=red,
+    inner sep=0, outer sep=0, minimum size=2pt]
+    at (200,19)
+    {};
+    ",
+    xy = "data",
+    panelx = 2, panely = 1
+)
+
+# Relative to panel coordinates
+annotation3 <- ggtikzAnnotation(
+    "
+    \\node[draw, anchor=center] at (0.5, 0.5)
+        {Center of panel};
+    ",
+    xy = "panel",
+    panelx = 1, panely=2
+)
+
+p_wrap
+canvas + annotation1 + annotation2 + annotation3
+@
+
+\subsubsection{Annotations in separate panels, relative to data coordinates}
+
+<<wrap2>>=
+canvas <- ggtikzCanvas(p_wrap)
+annotation1 <- ggtikzAnnotation(
+    "
+    \\node[pin={90:(110,27)}, circle, fill=red,
+        inner sep=0, outer sep=0, minimum size=2pt]
+        at (110,27)
+        {};
+    ",
+    xy = "data",
+    panelx = 1, panely = 1
+)
+annotation2 <- ggtikzAnnotation(
+    "
+    \\node[pin={90:(200,19)}, circle, fill=red,
+    inner sep=0, outer sep=0, minimum size=2pt]
+    at (200,19)
+    {};
+    ",
+    xy = "data",
+    panelx = 2, panely = 1
+)
+p_wrap
+canvas + annotation1
+@
+
+
+\subsection{Multi-panel plots: grid}
+
+Annotations can also be made on individual panels of plots faceted with
+\verb|facet_grid|.
+
+<<grid-setup>>=
+p_grid <- p + facet_grid(gear~cyl, scales="free", as.table=FALSE)
+@
+
+
+<<grid1, fig.width=5, fig.height=5>>=
+canvas <- ggtikzCanvas(p_grid)
+annot_grid1 <- ggtikzAnnotation(
+    "\\node[fill=white, draw, text width=2cm] at (0.5,0.5)
+        {panelx=1, panely=1};",
+    xy = "panel",
+    panelx = 1, panely = 1
+)
+annot_grid2 <- ggtikzAnnotation(
+    "\\node[fill=white, draw, text width=2cm] at (0.5,0.5)
+        {panelx=2, panely=3};",
+    xy = "panel",
+    panelx = 2, panely = 3
+)
+annot_grid3 <- ggtikzAnnotation(
+    "
+    \\draw[<-, blue] (90,15) -- ++(30:5mm)
+        node [at end, anchor=south west] {(90,15)};
+    ",
+    xy = "data",
+    panelx = 1, panely = 3
+)
+p_grid
+canvas + annot_grid1 + annot_grid2 + annot_grid3
+@
+
+\subsection{Re-using annotations}
+
+Annotations can be re-used between plots and \verb|ggtikz| canvases. However, be
+aware that panel position specifications rely on the \emph{visual position} of
+the panels, and \emph{not on the value of the facet variables}.
+
+<<grid2, fig.width=5, fig.height=5>>=
+p_grid2 <- p + facet_grid(gear~cyl, scales="free", as.table=TRUE)
+canvas2 <- ggtikzCanvas(p_grid2)
+
+p_grid2
+canvas2 + annot_grid1 + annot_grid2 + annot_grid3
+@
+
+It is also not possible to add annotations to a plot for which the requested
+panels are not available.
+
+<<not-available, error = TRUE>>=
+p
+
+canvas <- ggtikzCanvas(p)
+canvas + annot_grid2
+@
+
+
+\section{Using styles defined in the surrounding document}
+Annotations can access styles which are defined in the containing document before
+the relevant .tikz file is included, allowing you to re-use global styles. Note
+that by default, knitr sets the option \verb|external| to \verb|TRUE|. Therefore,
+tikz graphics are pre-compiled to pdf. In that case, the tikzDevice needs to know
+about these styles, or an error will occur during externalization.
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\tikzset{loud/.style={
+    draw=yellow,
+    fill=red,
+    text=blue
+}}
+\end{lstlisting}
+
+<<using-styles>>=
+p
+
+canvas <- ggtikzCanvas(p)
+styled_annot <- ggtikzAnnotation(
+    "\\node[loud] at (0.5,0.5) {Look at me!};",
+    xy = "plot"
+)
+p
+canvas + styled_annot
+@
+
+\end{document}
