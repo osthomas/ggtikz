@@ -36,6 +36,7 @@ output: github_document
 # ggtikz
 
 <!-- badges: start -->
+[![codecov](https://codecov.io/gh/osthomas/ggtikz/branch/main/graph/badge.svg?token=0LPNGPFO5Z)](https://codecov.io/gh/osthomas/ggtikz)
 [![R-CMD-check](https://github.com/osthomas/ggtikz/workflows/R-CMD-check/badge.svg)](https://github.com/osthomas/ggtikz/actions)
 <!-- badges: end -->
 
@@ -46,9 +47,9 @@ them with the [tikzDevice](https://cran.r-project.org/web/packages/tikzDevice).
 The annotations can be made using data coordinates, or with coordinates relative
 to a specified panel or the whole plot.
 
-Plots with multiple panels (via `facet_grid()` or `facet_wrap`) are supported.
+Plots with multiple panels (via `facet_grid()` or `facet_wrap()`) are supported.
 
-For a few examples, see the [examples vignette](doc/examples.pdf)
+For a few examples, see the [examples vignette](doc/examples.pdf).
 
 ## Installation
 
