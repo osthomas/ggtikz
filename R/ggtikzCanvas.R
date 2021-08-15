@@ -15,6 +15,37 @@
 #' @seealso \code{\link{ggtikz}} for a helper function for quick one-step annotations.
 #' @seealso \code{\link{ggtikzAnnotation}} for more information about creating and adding ggtikz annotations.
 #'
+#' @examples
+#' \dontrun{
+#' library(ggplot2)
+#' library(tikzDevice)
+#' library(ggtikz)
+#' p <- ggplot(mtcars, aes(disp, mpg)) + geom_point()
+#'
+#' # Create a TikZ canvas on the plot
+#' canvas <- ggtikzCanvas(p)
+#'
+#' # Create annotations to add to the canvas
+#'
+#' # Circle in the center of the plot
+#' annotation1 <- ggtikzAnnotation(
+#'    "\\fill[red] (0.5,0.5) circle (2mm);",
+#'    xy = "plot")
+#'
+#' # Arrow to data coordinate (400,20)
+#' annotation2 <- ggtikzAnnotation(
+#'    "\\draw[<-] (400,20) -- ++(0,2.5);",
+#'    xy = "data", panelx = 1, panely = 1)
+#'
+#' out <- tempfile(fileext = ".tikz")
+#' tikz(out)
+#' # First, draw the original plot
+#' p
+#' # Then, add the annotations to the canvas and draw it
+#' canvas + annotation1 + annotation2
+#' dev.off()
+#' }
+#'
 #' @export
 ggtikzCanvas <- function(gg_plot) {
     # For coordinate calculations and panel localisation, information at different
