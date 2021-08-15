@@ -15,6 +15,7 @@
 #' @seealso \code{\link{ggtikzAnnotation}} for creating an annotation, which can then be added to a canvas.
 #'
 #' @examples
+#' \dontrun{
 #' library(ggplot2)
 #' library(tikzDevice)
 #' library(ggtikz)
@@ -24,6 +25,7 @@
 #' # Add a red circle in the middle of the plot.
 #' ggtikz(p, "\\fill[red] (0.5,0.5) circle (2mm);", xy="plot")
 #' dev.off()
+#' }
 #' @export
 ggtikz <- function(gg_plot, ..., draw = TRUE) {
     canvas <- ggtikzCanvas(gg_plot)
