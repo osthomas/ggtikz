@@ -16,10 +16,10 @@ rendering them with the
 annotations can be made using data coordinates, or with coordinates
 relative to a specified panel or the whole plot.
 
-Plots with multiple panels (via `facet_grid()` or `facet_wrap`) are
+Plots with multiple panels (via `facet_grid()` or `facet_wrap()`) are
 supported.
 
-For a few examples, see the [examples vignette](doc/examples.pdf)
+For a few examples, see the [examples vignette](doc/examples.pdf).
 
 ## Installation
 
