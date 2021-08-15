@@ -1,4 +1,5 @@
 ^LICENSE\.md$
+^cran-comments\.md$
 ^doc$
 ^Meta$
 ^README\.Rmd$
