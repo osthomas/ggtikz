@@ -12,9 +12,9 @@
 \item{coord}{A numeric vector of length 2, with the x coordinate to convert
 at \code{coord[1]} and the y coordinate to convert at \code{coord[2]}}
 
-\item{panelx}{X positition (column) of the panel holding the data}
+\item{panelx}{X position (column) of the panel holding the data}
 
-\item{panely}{X positition (row) of the panel holding the data}
+\item{panely}{X position (row) of the panel holding the data}
 }
 \value{
 The input coordinates from \code{coord} converted to npc coordinates in

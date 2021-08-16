@@ -119,8 +119,8 @@ get_panel_range.ggtikzCanvas <- function(self, panelx, panely) {
 #' @param self a \code{\link{ggtikzCanvas}} object
 #' @param coord A numeric vector of length 2, with the x coordinate to convert
 #'   at `coord[1]` and the y coordinate to convert at `coord[2]`
-#' @param panelx X positition (column) of the panel holding the data
-#' @param panely X positition (row) of the panel holding the data
+#' @param panelx X position (column) of the panel holding the data
+#' @param panely X position (row) of the panel holding the data
 #'
 #' @returns The input coordinates from `coord` converted to npc coordinates in
 #'   the form of a numeric vector of length 2. (0,0) corresponds to the lower
