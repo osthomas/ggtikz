@@ -114,6 +114,19 @@ get_panel_range.ggtikzCanvas <- function(self, panelx, panely) {
 }
 
 
+#' @export
+get_panel_transforms.ggtikzCanvas <- function(self, panelx, panely) {
+    idx <- get_panel_index(self, panelx, panely)
+    panel_n <- self$panel_info[idx, "PANEL"]
+    trans_x <- self$built$layout$panel_params[[panel_n]]$x$scale$trans$transform
+    trans_y <- self$built$layout$panel_params[[panel_n]]$y$scale$trans$transform
+
+    transforms <- list(x = trans_x, y = trans_y)
+
+    return(transforms)
+}
+
+
 #' Convert data coordinates to npc coordinates.
 #'
 #' @param self a \code{\link{ggtikzCanvas}} object
@@ -263,6 +276,7 @@ get_annotation_valid.ggtikzCanvas <- function(self, ggtikzAnnotation) {
 add_annotation.ggtikzCanvas <- function(self, ggtikzAnnotation) {
     get_annotation_valid(self, ggtikzAnnotation)
     ggtikzAnnotation$.id <- length(self$.annotations) + 1
+    ggtikzAnnotation <- ggtikzTransform(self, ggtikzAnnotation)
     self$.annotations[[ggtikzAnnotation$.id]] <- ggtikzAnnotation
 
     return(self)

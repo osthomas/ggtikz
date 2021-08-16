@@ -18,6 +18,7 @@ Imports:
     ggplot2,
     tikzDevice
 Suggests:
+    stringr,
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),

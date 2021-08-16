@@ -56,6 +56,24 @@ test_that("panel axis ranges are returned correctly", {
 })
 
 
+test_that("panel transformations are returned correctly", {
+    p <- ggplot() + scale_x_continuous(trans="log10")
+    canvas <- ggtikzCanvas(p)
+    transforms <- get_panel_transforms(canvas, 1, 1)
+    expect_equal(transforms$x(10), 1)
+    expect_equal(transforms$x(100), 2)
+    expect_equal(transforms$y(10), 10)
+    expect_equal(transforms$y(100), 100)
+
+    p <- ggplot() + scale_y_continuous(trans="log10")
+    canvas <- ggtikzCanvas(p)
+    transforms <- get_panel_transforms(canvas, 1, 1)
+    expect_equal(transforms$x(10), 10)
+    expect_equal(transforms$x(100), 100)
+    expect_equal(transforms$y(10), 1)
+    expect_equal(transforms$y(100), 2)
+})
+
 
 expect_ref_equal <- function(annotation, expect_p00, expect_p11) {
     df <- data.frame(x=0:5, y=0:5)

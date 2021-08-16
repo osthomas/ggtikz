@@ -11,6 +11,7 @@ ggtikzAnnotation(
   xy = NULL,
   panelx = NULL,
   panely = NULL,
+  transform = TRUE,
   clip = "inherit"
 )
 }
@@ -26,6 +27,12 @@ ggtikzAnnotation(
 \item{panelx}{x position of the panel to use as coordinate reference, starting from the left, 1-based.}
 
 \item{panely}{y position of the panel to use as coordinate reference, starting from the top, 1-based.}
+
+\item{transform}{Should TikZ coordinates be transformed according to the
+scale transformation? If \code{TRUE}, coordinates in \code{tikz_code} are replaced by
+the transformation of the x/y scale, as appropriate. Coordinates components
+with physical lengths are not changed. See \code{\link{ggtikzTransform}} for
+details.}
 
 \item{clip}{Should annotations be clipped to the panel boundaries?
 See the \code{clip} argument to \code{\link[grid]{viewport}}}

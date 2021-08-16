@@ -14,6 +14,11 @@
 #' @param xy Reference frame for both x and y coordinates. Trumps `x` and `y`. Either "data" or "panel" or "plot".
 #' @param panelx x position of the panel to use as coordinate reference, starting from the left, 1-based.
 #' @param panely y position of the panel to use as coordinate reference, starting from the top, 1-based.
+#' @param transform Should TikZ coordinates be transformed according to the
+#'   scale transformation? If `TRUE`, coordinates in `tikz_code` are replaced by
+#'   the transformation of the x/y scale, as appropriate. Coordinates components
+#'   with physical lengths are not changed. See \code{\link{ggtikzTransform}} for
+#'   details.
 #' @param clip Should annotations be clipped to the panel boundaries?
 #'    See the `clip` argument to \code{\link[grid]{viewport}}
 #'
@@ -30,6 +35,7 @@ ggtikzAnnotation <- function(
     y = c("data", "panel"),
     xy = NULL,
     panelx = NULL, panely = NULL,
+    transform = TRUE,
     clip = "inherit"
 ) {
     if (!is.null(xy)) {
@@ -69,7 +75,9 @@ ggtikzAnnotation <- function(
             reference=reference,
             panelx = panelx,
             panely = panely,
+            transform = transform,
             clip = clip,
+            .transformed = !transform,
             .mult = .mult,
             .id = NULL),
         class = "ggtikzAnnotation"

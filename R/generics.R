@@ -1,5 +1,6 @@
 get_panel_info <- function(x, ...) UseMethod("get_panel_info")
 get_panel_range <- function(x, ...) UseMethod("get_panel_range")
+get_panel_transforms <- function(x, ...) UseMethod("get_panel_transforms")
 gg_to_npc <- function(x, ...) UseMethod("gg_to_npc")
 get_refpoints <- function(x, ...) UseMethod("get_refpoints")
 get_panel_index <- function(x, ...) UseMethod("get_panel_index")
