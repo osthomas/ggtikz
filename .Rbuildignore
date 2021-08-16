@@ -10,3 +10,4 @@
 \.toc$
 \.tex$
 ^\.github$
+^CRAN-RELEASE$

@@ -8,11 +8,18 @@
 #'
 #' @param gg_plot A ggplot object on which annotations should be made.
 #' @param ... Passed to \code{\link{ggtikzAnnotation}}.
-#' @param draw TRUE or FALSE. Should gg_plot and the resulting annotation be drawn immediately?
-#' A tikz device needs to be open.
+#' @param draw TRUE or FALSE. Should gg_plot and the resulting annotation be
+#'   drawn immediately? A tikz device needs to be open.
 #'
-#' @seealso \code{\link{ggtikzCanvas}} for creating a canvas which can store multiple annotations.
-#' @seealso \code{\link{ggtikzAnnotation}} for creating an annotation, which can then be added to a canvas.
+#' @seealso \code{\link{ggtikzCanvas}} for creating a canvas which can store
+#'   multiple annotations.
+#' @seealso \code{\link{ggtikzAnnotation}} for creating an annotation, which can
+#'   then be added to a canvas.
+#'
+#' @returns A \code{\link{ggtikzCanvas}} object with one
+#'   \code{\link{ggtikzAnnotation}} (specified in `...`) already added. If
+#'   `draw = TRUE`, the `gg_plot` and the annotations are drawn to the currently
+#'   active device. This must be a `tikzDevice`, or an error will be raised.
 #'
 #' @examples
 #' \dontrun{

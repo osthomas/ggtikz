@@ -10,7 +10,7 @@ ggtikzCanvas(gg_plot)
 \item{gg_plot}{A ggplot object on which annotations should be made.}
 }
 \value{
-A ggtikz object, to which annotations can be added.
+A ggtikzCanvas object, to which annotations can be added.
 }
 \description{
 Annotations can be made relative to the whole plot, to a panel, or to data
@@ -18,8 +18,8 @@ coordinates (of individual panels).
 }
 \details{
 This function provides a canvas for TikZ annotations, and does not draw
-anything by itself. Its purpose is to provide information about the underlying
-ggplot object for coordinate calculations.
+anything by itself. Its purpose is to provide information about the
+underlying ggplot object for coordinate calculations.
 }
 \examples{
 \dontrun{
@@ -54,9 +54,12 @@ dev.off()
 
 }
 \seealso{
-\code{\link[tikzDevice]{grid.tikzAnnotate}} for annotation of base graphics.
+\code{\link[tikzDevice]{grid.tikzAnnotate}} for annotation of base
+graphics.
 
-\code{\link{ggtikz}} for a helper function for quick one-step annotations.
+\code{\link{ggtikz}} for a helper function for quick one-step
+annotations.
 
-\code{\link{ggtikzAnnotation}} for more information about creating and adding ggtikz annotations.
+\code{\link{ggtikzAnnotation}} for more information about creating
+and adding ggtikz annotations.
 }

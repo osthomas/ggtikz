@@ -9,12 +9,18 @@
 \arguments{
 \item{self}{a \code{\link{ggtikzCanvas}} object}
 
-\item{coord}{A numeric vector of length two, with the x coordinate to convert
+\item{coord}{A numeric vector of length 2, with the x coordinate to convert
 at \code{coord[1]} and the y coordinate to convert at \code{coord[2]}}
 
 \item{panelx}{X positition (column) of the panel holding the data}
 
 \item{panely}{X positition (row) of the panel holding the data}
+}
+\value{
+The input coordinates from \code{coord} converted to npc coordinates in
+the form of a numeric vector of length 2. (0,0) corresponds to the lower
+left corner of the viewport containing the \code{ggplot} panel specified by
+\code{panelx} and \code{panely}, and (1,1) corresponds to the upper right corner.
 }
 \description{
 Convert data coordinates to npc coordinates.

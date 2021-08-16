@@ -4,16 +4,19 @@
 #' coordinates (of individual panels).
 #'
 #' This function provides a canvas for TikZ annotations, and does not draw
-#' anything by itself. Its purpose is to provide information about the underlying
-#' ggplot object for coordinate calculations.
+#' anything by itself. Its purpose is to provide information about the
+#' underlying ggplot object for coordinate calculations.
 #'
 #' @param gg_plot A ggplot object on which annotations should be made.
 #'
-#' @returns A ggtikz object, to which annotations can be added.
+#' @returns A ggtikzCanvas object, to which annotations can be added.
 #'
-#' @seealso \code{\link[tikzDevice]{grid.tikzAnnotate}} for annotation of base graphics.
-#' @seealso \code{\link{ggtikz}} for a helper function for quick one-step annotations.
-#' @seealso \code{\link{ggtikzAnnotation}} for more information about creating and adding ggtikz annotations.
+#' @seealso \code{\link[tikzDevice]{grid.tikzAnnotate}} for annotation of base
+#'   graphics.
+#' @seealso \code{\link{ggtikz}} for a helper function for quick one-step
+#'   annotations.
+#' @seealso \code{\link{ggtikzAnnotation}} for more information about creating
+#'   and adding ggtikz annotations.
 #'
 #' @examples
 #' \dontrun{
@@ -114,10 +117,16 @@ get_panel_range.ggtikzCanvas <- function(self, panelx, panely) {
 #' Convert data coordinates to npc coordinates.
 #'
 #' @param self a \code{\link{ggtikzCanvas}} object
-#' @param coord A numeric vector of length two, with the x coordinate to convert
+#' @param coord A numeric vector of length 2, with the x coordinate to convert
 #'   at `coord[1]` and the y coordinate to convert at `coord[2]`
 #' @param panelx X positition (column) of the panel holding the data
 #' @param panely X positition (row) of the panel holding the data
+#'
+#' @returns The input coordinates from `coord` converted to npc coordinates in
+#'   the form of a numeric vector of length 2. (0,0) corresponds to the lower
+#'   left corner of the viewport containing the `ggplot` panel specified by
+#'   `panelx` and `panely`, and (1,1) corresponds to the upper right corner.
+#'
 #' @export
 gg_to_npc.ggtikzCanvas <- function(self, coord, panelx, panely) {
     ranges <- get_panel_range(self, panelx, panely)
@@ -126,7 +135,6 @@ gg_to_npc.ggtikzCanvas <- function(self, coord, panelx, panely) {
         (coord[1] - ranges$x[1]) / diff(range(ranges$x)),
         (coord[2] - ranges$y[1]) / diff(range(ranges$y))
     )
-
 
     return(coords)
 }

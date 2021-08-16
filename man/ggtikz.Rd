@@ -11,8 +11,14 @@ ggtikz(gg_plot, ..., draw = TRUE)
 
 \item{...}{Passed to \code{\link{ggtikzAnnotation}}.}
 
-\item{draw}{TRUE or FALSE. Should gg_plot and the resulting annotation be drawn immediately?
-A tikz device needs to be open.}
+\item{draw}{TRUE or FALSE. Should gg_plot and the resulting annotation be
+drawn immediately? A tikz device needs to be open.}
+}
+\value{
+A \code{\link{ggtikzCanvas}} object with one
+\code{\link{ggtikzAnnotation}} (specified in \code{...}) already added. If
+\code{draw = TRUE}, the \code{gg_plot} and the annotations are drawn to the currently
+active device. This must be a \code{tikzDevice}, or an error will be raised.
 }
 \description{
 This is a helper function for quick one-step annotations. It creates a
@@ -36,7 +42,9 @@ dev.off()
 }
 }
 \seealso{
-\code{\link{ggtikzCanvas}} for creating a canvas which can store multiple annotations.
+\code{\link{ggtikzCanvas}} for creating a canvas which can store
+multiple annotations.
 
-\code{\link{ggtikzAnnotation}} for creating an annotation, which can then be added to a canvas.
+\code{\link{ggtikzAnnotation}} for creating an annotation, which can
+then be added to a canvas.
 }
