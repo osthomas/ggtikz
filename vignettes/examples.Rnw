@@ -140,7 +140,8 @@ canvas <- ggtikzCanvas(p)
 annotation <- ggtikzAnnotation(
     "
     \\draw[thick,red] (100,20) -| (400,15);
-    \\draw[<-] (153,24) -- ++(30:1cm) node[at end, anchor=south] {Interesting!};
+    \\draw[<-] (153,24) -- ++(30:1cm) node[at end, anchor=south]
+        {Interesting!};
     ",
     xy = "data",
     panelx = 1, panely = 1
@@ -281,7 +282,7 @@ annotation2 <- ggtikzAnnotation(
     panelx = 2, panely = 1
 )
 p_wrap
-canvas + annotation1
+canvas + annotation1 + annotation2
 @
 
 
