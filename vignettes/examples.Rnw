@@ -347,6 +347,55 @@ canvas + annot_grid2
 @
 
 
+\section{Transformed scales}
+TikZ coordinates can automatically be transformed to accommodate transformed
+scales, such as log-transformed ones. This is activated by setting
+\verb|transform = TRUE| in the call to \verb|ggtikzAnnotation|.
+With \verb|transform = FALSE|, annotations made with data coordinates are out
+of place in log plots, but the transformation calculation can be done manually.
+
+<<logplot>>=
+p_log <- ggplot(mtcars, aes(mpg, disp)) +
+    geom_point() +
+    scale_x_continuous(trans="log10")
+@
+
+
+<<logplot-transform>>=
+canvas_log <- ggtikzCanvas(p_log)
+# Untransformed coordinates: wrong position
+annot_log <- ggtikzAnnotation(
+    "\\fill[red] (1,100) circle (2mm);
+    \\node[anchor=west, text=red] at (1, 100)
+        {The circle is not at (1,100)!};
+    ", xy = "data", transform = FALSE, panelx = 1, panely = 1
+)
+
+# Transformed coordinates: correct position
+# The literal coordinate in the node text was wrapped in an \mbox
+# LaTeX command to prevent automatic transformation -- it can't
+# distinguish between coordinates which are supposed to be text,
+# and actual coorinates.
+annot_log2 <- ggtikzAnnotation(
+    "\\fill[blue] (20,200) circle (2mm);
+    \\node[anchor=south, text=blue] at (20, 200)
+        {This circle is at (\\mbox{20,200})!};
+    ", xy = "data", transform = TRUE, panelx = 1, panely = 1
+)
+
+# Untransformed coordinates, calculated manually by hand:
+# correct position
+annot_log3 <- ggtikzAnnotation(
+    "\\fill[magenta] (1.477,400) circle (2mm);
+    \\node[anchor=east, text=magenta] at (1.477, 400)
+        {This circle is at (30,400)!};
+    ", xy = "data", transform = FALSE, panelx = 1, panely = 1
+)
+p_log
+canvas_log + annot_log + annot_log2 + annot_log3
+@
+
+
 \section{Using styles defined in the surrounding document}
 Annotations can access styles which are defined in the containing document before
 the relevant .tikz file is included, allowing you to re-use global styles. Note
