@@ -36,6 +36,7 @@ output: github_document
 # ggtikz
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/ggtikz)](https://CRAN.R-project.org/package=ggtikz)
 [![codecov](https://codecov.io/gh/osthomas/ggtikz/branch/main/graph/badge.svg?token=0LPNGPFO5Z)](https://codecov.io/gh/osthomas/ggtikz)
 [![R-CMD-check](https://github.com/osthomas/ggtikz/workflows/R-CMD-check/badge.svg)](https://github.com/osthomas/ggtikz/actions)
 <!-- badges: end -->
@@ -53,9 +54,16 @@ For a few examples, see the [examples vignette](https://github.com/osthomas/ggti
 
 ## Installation
 
-You can install ggtikz from github with:
+You can install the latest ggtikz release from CRAN with:
 
-``` r
+``` {r, eval = FALSE}
+install.packages("ggtikz")
+```
+
+Or get the development version from GitHub:
+
+``` {r, eval = FALSE}
+# install.packages("devtools")
 devtools::install_github("osthomas/ggtikz")
 ```
 
