@@ -64,8 +64,14 @@ Or get the development version from GitHub:
 
 ``` {r, eval = FALSE}
 # install.packages("devtools")
-devtools::install_github("osthomas/ggtikz")
+devtools::install_github("osthomas/ggtikz", ref = "devel")
 ```
+
+## New in Devel
+[![codecov (devel)](https://codecov.io/gh/osthomas/ggtikz/branch/devel/graph/badge.svg?token=0LPNGPFO5Z)](https://codecov.io/gh/osthomas/ggtikz)
+[![R-CMD-check (devel)](https://github.com/osthomas/ggtikz/workflows/R-CMD-check/badge.svg?branch=devel)](https://github.com/osthomas/ggtikz/actions)
+
+The TikZ coordinates used with transformed scales can no be automatically transformed with the `transform = TRUE` (now the default) option for `ggtikzAnnotation` -- [see examples in the devel branch](https://github.com/osthomas/ggtikz/tree/devel).
 
 ## Basic Usage
 
