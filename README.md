@@ -41,6 +41,9 @@ devtools::install_github("osthomas/ggtikz", ref = "devel")
 
 ## New in Devel
 
+[![codecov](https://codecov.io/gh/osthomas/ggtikz/branch/devel/graph/badge.svg?token=0LPNGPFO5Z)](https://codecov.io/gh/osthomas/ggtikz)
+[![R-CMD-check](https://github.com/osthomas/ggtikz/workflows/R-CMD-check/badge.svg?branch=devel)](https://github.com/osthomas/ggtikz/actions)
+
 The TikZ coordinates used with transformed scales can no be
 automatically transformed with the `transform = TRUE` (now the default)
 option for `ggtikzAnnotation`.
@@ -84,7 +87,7 @@ p <- ggplot(mtcars, aes(disp, mpg)) + geom_point() # 1.
 ## tikz("plot.tikz")
 ggtikz(p,
     "\\fill[red] (0.5,0.5) circle (5mm);",
-    xy = "plot")
+    xy = "panel", panelx = 1, panely = 1)
 ## dev.off()
 ## Render with LaTeX ...
 ```

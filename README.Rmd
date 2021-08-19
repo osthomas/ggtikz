@@ -71,6 +71,8 @@ devtools::install_github("osthomas/ggtikz", ref = "devel")
 ```
 
 ## New in Devel
+[![codecov](https://codecov.io/gh/osthomas/ggtikz/branch/devel/graph/badge.svg?token=0LPNGPFO5Z)](https://codecov.io/gh/osthomas/ggtikz)
+[![R-CMD-check](https://github.com/osthomas/ggtikz/workflows/R-CMD-check/badge.svg?branch=devel)](https://github.com/osthomas/ggtikz/actions)
 
 The TikZ coordinates used with transformed scales can no be automatically transformed with the `transform = TRUE` (now the default) option for `ggtikzAnnotation`.
 
