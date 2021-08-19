@@ -36,8 +36,40 @@ Or get the development version from GitHub:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("osthomas/ggtikz")
+devtools::install_github("osthomas/ggtikz", ref = "devel")
 ```
+
+## New in Devel
+
+The TikZ coordinates used with transformed scales can no be
+automatically transformed with the `transform = TRUE` (now the default)
+option for `ggtikzAnnotation`.
+
+``` r
+p_log <- ggplot(mtcars, aes(mpg, disp)) + geom_point() + scale_x_continuous(trans="log10")
+canvas_log <- ggtikzCanvas(p_log)
+
+# Untransformed coordinates: wrong position
+annot_log <- ggtikzAnnotation(
+    "\\fill[red] (1,100) circle (2mm);
+    \\node[anchor=west, text=red] at (1, 100)
+        {The circle is not at (1,100)!};
+    ", xy = "data", transform = FALSE, panelx = 1, panely = 1
+)
+
+# Transformed coordinates: correct position
+annot_log2 <- ggtikzAnnotation(
+    "\\fill[blue] (20,200) circle (2mm);
+    \\node[anchor=south, text=blue] at (20, 200)
+        {This circle is at ({20,200})!};
+    ", xy = "data", transform = TRUE, panelx = 1, panely = 1
+)
+
+p_log
+canvas_log + annot_log + annot_log2
+```
+
+<img src="man/figures/README-transform-example-1.png" width="50%" />
 
 ## Basic Usage
 
