@@ -53,6 +53,8 @@ library(ggplot2)
 library(ggtikz)
 opts_chunk$set(
     dev = "tikz",
+    error = TRUE,
+    cache = FALSE,
     external = TRUE,
     fig.path = "example-vignette-figures/",
     fig.width = 3,
@@ -205,6 +207,33 @@ plot margins.
 p + theme(plot.margin = margin(t=0.5, b = 1, unit = "cm"))
 canvas + annotation_clip + annotation_unclip + annotation_unclip2
 @
+
+
+Alternatively, \verb|ggtikz| comes with a knitr hook to automatically unclip
+TikZ files:
+
+<<set-unclip-hook>>=
+set_ggtikz_unclip_hook()
+@
+
+Now clipping can be disabled for chunks with the \emph{chunk option}
+\verb|unclip = TRUE| -- however, this only works in conjunction with
+\verb|external = FALSE|.
+If the option \verb|external = TRUE|, then the resulting file is immediately
+compiled to pdf and not accessible for further post-processing.
+
+<<single-panel-clipping3, external=FALSE, unclip=TRUE>>=
+# chunk options: external=FALSE, unclip=TRUE
+p
+canvas + annotation_unclip2
+@
+
+Unset the hook to restore the default clipping behavior:
+
+<<unset-unclip-hook>>=
+unset_ggtikz_unclip_hook()
+@
+
 
 
 \subsection{Multi-panel plots: wrap}
