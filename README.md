@@ -44,9 +44,9 @@ devtools::install_github("osthomas/ggtikz", ref = "devel")
 [![codecov](https://codecov.io/gh/osthomas/ggtikz/branch/devel/graph/badge.svg?token=0LPNGPFO5Z)](https://codecov.io/gh/osthomas/ggtikz)
 [![R-CMD-check](https://github.com/osthomas/ggtikz/workflows/R-CMD-check/badge.svg?branch=devel)](https://github.com/osthomas/ggtikz/actions)
 
-The TikZ coordinates used with transformed scales can no be
-automatically transformed with the `transform = TRUE` (now the default)
-option for `ggtikzAnnotation`.
+-   The TikZ coordinates used with transformed scales can now be
+    automatically transformed with the `transform = TRUE` (now the
+    default) option for `ggtikzAnnotation`.
 
 ``` r
 p_log <- ggplot(mtcars, aes(mpg, disp)) + geom_point() + scale_x_continuous(trans="log10")
@@ -73,6 +73,10 @@ canvas_log + annot_log + annot_log2
 ```
 
 <img src="man/figures/README-transform-example-1.png" width="50%" />
+
+-   Plots can be automatically unclipped to accommodate annotations
+    extending beyond the plot boundaries. See `unclip()` and
+    `set_ggtikz_unclip_hook()`.
 
 ## Basic Usage
 
