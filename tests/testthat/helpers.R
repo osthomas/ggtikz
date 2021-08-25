@@ -1,3 +1,5 @@
+library(ggplot2)
+
 tempTikz <- function(fun, ...) {
     tmp <- tempfile()
     on.exit(unlink(tmp))
