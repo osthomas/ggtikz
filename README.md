@@ -78,6 +78,11 @@ canvas_log + annot_log + annot_log2
     extending beyond the plot boundaries. See `unclip()` and
     `set_ggtikz_unclip_hook()`.
 
+-   `Inf` and `-Inf` in TikZ coordinate specifications can be
+    automatically replaced by the maximum allowed value for the
+    annotation’s reference frame the `transform = TRUE` (now the
+    default) option for `ggtikzAnnotation`.
+
 ## Basic Usage
 
 1.  Create a ggplot.
