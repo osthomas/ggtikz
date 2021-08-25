@@ -19,6 +19,11 @@
 #'   the transformation of the x/y scale, as appropriate. Coordinates components
 #'   with physical lengths are not changed. See \code{\link{ggtikzTransform}} for
 #'   details.
+#' @param replace_inf Should annotation coordinates containing 'Inf' or '-Inf'
+#'   be adjusted so these values correspond to the edge of the available space?
+#'   This is analogous to the behavior of ggplot when infinite values are
+#'   encountered.
+#'   See also \code{\link{ggtikzUninfinite}}
 #' @param clip Should annotations be clipped to the panel boundaries?
 #'    See the `clip` argument to \code{\link[grid]{viewport}}
 #'
@@ -36,6 +41,7 @@ ggtikzAnnotation <- function(
     xy = NULL,
     panelx = NULL, panely = NULL,
     transform = TRUE,
+    replace_inf = TRUE,
     clip = "inherit"
 ) {
     if (!is.null(xy)) {
@@ -76,6 +82,7 @@ ggtikzAnnotation <- function(
             panelx = panelx,
             panely = panely,
             transform = transform,
+            replace_inf = replace_inf,
             clip = clip,
             .transformed = !transform,
             .mult = .mult,

@@ -277,6 +277,7 @@ add_annotation.ggtikzCanvas <- function(self, ggtikzAnnotation) {
     get_annotation_valid(self, ggtikzAnnotation)
     ggtikzAnnotation$.id <- length(self$.annotations) + 1
     ggtikzAnnotation <- ggtikzTransform(self, ggtikzAnnotation)
+    ggtikzAnnotation <- ggtikzUninfinite(self, ggtikzAnnotation)
     self$.annotations[[ggtikzAnnotation$.id]] <- ggtikzAnnotation
 
     return(self)

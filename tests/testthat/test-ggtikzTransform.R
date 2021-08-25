@@ -3,11 +3,6 @@ library(ggtikz)
 plus1 <- function(x) x + 1
 plus2 <- function(x) x + 2
 
-canvas_y_log10 <- function() {
-    p <- ggplot(mtcars, aes(mpg,disp)) + geom_point() + scale_y_continuous(trans="log10", expand=expansion(0, 0))
-    canvas <- ggtikzCanvas(p)
-    return(canvas)
-}
 
 test_that("numeric coordinate components are transformed", {
     expect_equal(try_transform("1", plus1), 2)
@@ -15,7 +10,7 @@ test_that("numeric coordinate components are transformed", {
 })
 
 
-test_that("infinite and NA values raise an errors", {
+test_that("transformation to infinite and NA values raise an errors", {
     expect_error(try_transform("-1", log), "value -1 could not be transformed")
     expect_error(try_transform("0", log), "value 0 could not be transformed")
 })
@@ -24,6 +19,14 @@ test_that("infinite and NA values raise an errors", {
 test_that("non-numeric coordinate components are not transformed", {
     expect_equal(try_transform("1in", plus1), "1in")
     expect_equal(try_transform("2 cm", plus2), "2 cm")
+})
+
+
+test_that("explicitly input infinite coordinate components are not transformed", {
+    expect_equal(try_transform("inf", plus1), "inf")
+    expect_equal(try_transform("-inf", plus1), "-inf")
+    expect_equal(try_transform("Inf", plus1), "Inf")
+    expect_equal(try_transform("-Inf", plus1), "-Inf")
 })
 
 

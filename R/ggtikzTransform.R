@@ -1,4 +1,3 @@
-
 get_stringr_required <- function(transforms) {
     # stringr is only required if transforms need to be done
     # no transforms are needed if all transforms are `identity`
@@ -62,13 +61,17 @@ ggtikzTransform <- function(ggtikzCanvas, ggtikzAnnotation) {
 
 
 
-
 try_transform <- function(x, transform_fun) {
     # Try to convert the value to a numeric vector
     # If this returns NA, there is a unit behind the value, and we return
     # unchanged (e.g. for '3cm', '1.5 in').
     new <- suppressWarnings(as.numeric(x))
     if (is.na(new)) return(x)
+
+    # If the coordinate is an explicit Inf/-Inf, do not transform it:
+    # It will later be adjusted to correspond to the minimum/maximum of the
+    # respective reference frame
+    if (is.infinite(new)) return(x)
 
     new <- suppressWarnings(transform_fun(new))
     if (is.infinite(new) | is.na(new)) {
@@ -85,11 +88,9 @@ try_transform <- function(x, transform_fun) {
 
 
 transform_coord <- function(coord, transform_x, transform_y) {
-    pattern_components <- "\\(([^,]*),([^\\)]*)\\)"
-    components <- stringr::str_match(coord, pattern_components)
-    x_orig <- components[1,2]
-    y_orig <- components[1,3]
-
+    coord <- split_coord(coord)
+    x_orig <- coord[1]
+    y_orig <- coord[2]
     x_new <- try_transform(x_orig, transform_x)
     y_new <- try_transform(y_orig, transform_y)
     coord_new <- sprintf("(%s,%s)", x_new, y_new)
@@ -102,8 +103,7 @@ transform_tikz <- function(tikz_code, transform_x, transform_y) {
     replace_func <- function(coord) {
         transform_coord(coord, transform_x, transform_y)
     }
-    pattern_coord <- "\\([^\\)]*,.*?\\)"
-    result <- stringr::str_replace_all(tikz_code, pattern_coord, replace_func)
+    result <- replace_coords(tikz_code, replace_func)
 
     return(result)
 }
