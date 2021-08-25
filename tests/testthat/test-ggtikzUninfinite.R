@@ -44,29 +44,15 @@ test_that("padding is calculated correctly", {
 })
 
 
-test_that("padding is adjusted correctly", {
-    pad <- c(t = "1pt", r = "2pt", b = "3pt", l = "4pt")
-    expect_equal(adjust_padding(c(0, 0), pad), c("0", "0"))
-    expect_equal(adjust_padding(c(Inf, 0), pad), c("-2pt", "0"))
-    expect_equal(adjust_padding(c(-Inf, 0), pad), c("4pt", "0"))
-    expect_equal(adjust_padding(c(0, Inf), pad), c("0", "-1pt"))
-    expect_equal(adjust_padding(c(0, -Inf), pad), c("0", "3pt"))
-    expect_equal(adjust_padding(c(Inf, Inf), pad), c("-2pt", "-1pt"))
-    expect_equal(adjust_padding(c(-Inf, Inf), pad), c("4pt", "-1pt"))
-    expect_equal(adjust_padding(c(Inf, -Inf), pad), c("-2pt", "3pt"))
-    expect_equal(adjust_padding(c(-Inf, -Inf), pad), c("4pt", "3pt"))
-})
-
 test_that("replacement of infinite values works", {
     x <- c(-1, 1)
     y <- c(-2, 2)
-    pad <- c(t = "1pt", r = "2pt", b = "3pt", l = "4pt")
 
-    expect_equal(uninfinite_coord("(0,0)", x, y, pad), "(0,0)")
-    expect_equal(uninfinite_coord("(5,1cm)", x, y, pad), "(5,1cm)")
-    expect_equal(uninfinite_coord("(-Inf,0)", x, y, pad), "($(-1,0)+(4pt,0)$)")
-    expect_equal(uninfinite_coord("(-Inf,1cm)", x, y, pad), "($(-1,1cm)+(4pt,0)$)")
-    expect_equal(uninfinite_coord("(Inf,Inf)", x, y, pad), "($(1,2)+(-2pt,-1pt)$)")
+    expect_equal(uninfinite_coord("(0,0)", x, y), "(0,0)")
+    expect_equal(uninfinite_coord("(5,1cm)", x, y), "(5,1cm)")
+    expect_equal(uninfinite_coord("(-Inf,0)", x, y), "(-1,0)")
+    expect_equal(uninfinite_coord("(-Inf,1cm)", x, y), "(-1,1cm)")
+    expect_equal(uninfinite_coord("(Inf,Inf)", x, y), "(1,2)")
 })
 
 
@@ -77,26 +63,26 @@ expect_uninfinite_equal <- function(canvas, annotation, expect) {
 test_that("removal of Inf from annotations works in a linear scale", {
     c1 <- canvas_lin()
     annot_plot <- ggtikzAnnotation("\\draw (-Inf,Inf) -- (1,1);", xy = "plot")
-    expect_uninfinite_equal(c1, annot_plot, "\\draw ($(0,1)+(0pt,-0pt)$) -- (1,1);")
+    expect_uninfinite_equal(c1, annot_plot, "\\draw (0,1) -- (1,1);")
 
     annot_data <- ggtikzAnnotation("\\draw (-Inf,Inf) -- (Inf,-Inf);", xy = "data", panelx=1, panely=1)
-    expect_uninfinite_equal(c1, annot_data, "\\draw ($(9.225,472)+(0pt,-0pt)$) -- ($(35.075,71.1)+(-0pt,0pt)$);")
+    expect_uninfinite_equal(c1, annot_data, "\\draw (9.225,472) -- (35.075,71.1);")
 
     c1$p <- c1$p + theme(panel.border = element_rect(size=5))
-    expect_uninfinite_equal(c1, annot_data, "\\draw ($(9.225,472)+(2.85pt,-2.85pt)$) -- ($(35.075,71.1)+(-2.85pt,2.85pt)$);")
+    expect_uninfinite_equal(c1, annot_data, "\\draw (9.225,472) -- (35.075,71.1);")
 })
 
 
 test_that("removal of Inf from annotations works in a log scale", {
     c1 <- canvas_y_log10()
     annot_plot <- ggtikzAnnotation("\\draw (-Inf,Inf) -- (1,1);", xy = "plot")
-    expect_uninfinite_equal(c1, annot_plot, "\\draw ($(0,1)+(0pt,-0pt)$) -- (1,1);")
+    expect_uninfinite_equal(c1, annot_plot, "\\draw (0,1) -- (1,1);")
 
     annot_data <- ggtikzAnnotation("\\draw (-Inf,Inf) -- (Inf,-Inf);", xy = "data", panelx=1, panely=1)
-    expect_uninfinite_equal(c1, annot_data, "\\draw ($(9.225,2.67394199863409)+(0pt,-0pt)$) -- ($(35.075,1.85186960072977)+(-0pt,0pt)$);")
+    expect_uninfinite_equal(c1, annot_data, "\\draw (9.225,2.67394199863409) -- (35.075,1.85186960072977);")
 
     c1$p <- c1$p + theme(panel.border = element_rect(size=5))
-    expect_uninfinite_equal(c1, annot_data, "\\draw ($(9.225,2.67394199863409)+(2.85pt,-2.85pt)$) -- ($(35.075,1.85186960072977)+(-2.85pt,2.85pt)$);")
+    expect_uninfinite_equal(c1, annot_data, "\\draw (9.225,2.67394199863409) -- (35.075,1.85186960072977);")
 })
 
 

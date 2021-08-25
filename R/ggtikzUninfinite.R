@@ -36,8 +36,7 @@ ggtikzUninfinite <- function(ggtikzCanvas, ggtikzAnnotation) {
     transformed <- uninfinite_tikz(
         ggtikzAnnotation$tikz_code,
         xrange,
-        yrange,
-        padding)
+        yrange)
     ggtikzAnnotation$tikz_code <- transformed
 
     return(ggtikzAnnotation)
@@ -60,7 +59,7 @@ ggtikzUninfinite <- function(ggtikzCanvas, ggtikzAnnotation) {
 #'  the resulting adjusted coordinate will be padded, using the TikZ 'calc' library
 #'  notation: ($(adjusted_x, adjusted_y)++(pad_x, pad_y)$)
 #' @returns The adjusted TikZ coordinate with padding, as a string.
-uninfinite_coord <- function(coord, xrange, yrange, padding) {
+uninfinite_coord <- function(coord, xrange, yrange) {
     coord_split <- split_coord(coord)
     # coord might contain units, therefore suppress warnings for conversion to
     # numeric
@@ -72,15 +71,8 @@ uninfinite_coord <- function(coord, xrange, yrange, padding) {
 
     # NA for values with units: do not alter output
     discretized[is.na(discretized)] <- coord_split[is.na(discretized)]
-    adjusted_pad <- adjust_padding(coord_values, padding)
 
-    new_coord <- do.call(
-        sprintf, c(
-            fmt = "($(%s,%s)+(%s,%s)$)",
-            as.list(c(discretized, adjusted_pad)))
-    )
-
-    # coord_new <- sprintf("(%s,%s)", x_out, y_out)
+    new_coord <- sprintf("(%s,%s)", discretized[1], discretized[2])
 
     return(new_coord)
 }
@@ -88,9 +80,9 @@ uninfinite_coord <- function(coord, xrange, yrange, padding) {
 
 #' @rdname uninfinite_coord
 #' @param tikz_code The TikZ code to replace Infinite values in.
-uninfinite_tikz <- function(tikz_code, xrange, yrange, padding) {
+uninfinite_tikz <- function(tikz_code, xrange, yrange) {
     replace_func <- function(coord) {
-        uninfinite_coord(coord, xrange, yrange, padding)
+        uninfinite_coord(coord, xrange, yrange)
     }
     result <- replace_coords(tikz_code, replace_func)
 }
@@ -174,29 +166,4 @@ get_padding <- function(gg_plot) {
     names(padding) <- c("t", "r", "b", "l")
 
     return(padding)
-}
-
-
-#' Adjust padding for Infinite coordinates
-#'
-#' Add appropriate sign to the padding values, depending on the sign of the
-#' infinity.
-#'
-#'  * -Inf has to be shifted in the positive direction
-#'  * +Inf has to be shifted in the negative direction
-#'
-#' @inheritParams discretize
-#' @param padding Result of \code{\link{get_padding}}
-#' @returns A character vector of adjusted padding lengths.
-adjust_padding <- function(coord_values, padding) {
-    inf <- is.infinite(coord_values)
-    neg <- coord_values < 0
-
-    mins <- padding[c("l", "b")]
-    maxs <- padding[c("r", "t")]
-
-    padding_out <- c("0", "0")
-    padding_out[inf & neg] <- mins[inf & neg]
-    padding_out[inf & !neg] <- paste0("-", maxs[inf & !neg])
-    return(padding_out)
 }
