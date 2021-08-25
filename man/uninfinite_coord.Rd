@@ -5,9 +5,9 @@
 \alias{uninfinite_tikz}
 \title{Replace infinite values in TikZ coordinates}
 \usage{
-uninfinite_coord(coord, xrange, yrange, padding)
+uninfinite_coord(coord, xrange, yrange)
 
-uninfinite_tikz(tikz_code, xrange, yrange, padding)
+uninfinite_tikz(tikz_code, xrange, yrange)
 }
 \arguments{
 \item{coord}{TikZ coordinate}
@@ -17,10 +17,6 @@ direction}
 
 \item{yrange}{Numeric vector of length 2, minimum and maximum values in the y
 direction}
-
-\item{padding}{Character vector of length 2. Coordinate components with which
-the resulting adjusted coordinate will be padded, using the TikZ 'calc' library
-notation: ($(adjusted_x, adjusted_y)++(pad_x, pad_y)$)}
 
 \item{tikz_code}{The TikZ code to replace Infinite values in.}
 }

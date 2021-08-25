@@ -14,36 +14,6 @@ test_that("infinite coordinate values are discretized correctly", {
 })
 
 
-test_that("padding is calculated correctly", {
-    old <- getOption("tikzLwdUnit")
-    # Set option so that output should exactly correspond to input
-    options(tikzLwdUnit = 2 * 1/.pt)
-    on.exit(options(tikzLwdUnit = old))
-    p <- ggplot()
-
-    theme1 <- theme(
-        panel.border = element_rect(size = 1),
-        axis.line.x = element_line(size = 2))
-    expect_equal(get_padding(p + theme1), c(t = "2pt", r = "1pt", b = "2pt", l = "1pt"))
-
-    theme2 <- theme(
-        panel.border = element_rect(size = 1),
-        axis.line = element_line(size = 5))
-    expect_equal(get_padding(p + theme2), c(t = "5pt", r = "5pt", b = "5pt", l = "5pt"))
-
-    theme3 <- theme(
-        panel.border = element_rect(size = 1),
-        axis.line.y.left = element_line(size = 0))
-    expect_equal(get_padding(p + theme3), c(t = "1pt", r = "1pt", b = "1pt", l = "1pt"))
-
-    theme4 <- theme(
-        panel.border = element_rect(size = 1),
-        axis.line.y.left = element_line(size = 5))
-    expect_equal(get_padding(p + theme4), c(t = "1pt", r = "1pt", b = "1pt", l = "5pt"))
-
-})
-
-
 test_that("replacement of infinite values works", {
     x <- c(-1, 1)
     y <- c(-2, 2)

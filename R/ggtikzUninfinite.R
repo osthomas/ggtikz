@@ -32,7 +32,6 @@ ggtikzUninfinite <- function(ggtikzCanvas, ggtikzAnnotation) {
         yrange <- c(0, 1)
     }
 
-    padding <- get_padding(ggtikzCanvas$p)
     transformed <- uninfinite_tikz(
         ggtikzAnnotation$tikz_code,
         xrange,
@@ -55,9 +54,6 @@ ggtikzUninfinite <- function(ggtikzCanvas, ggtikzAnnotation) {
 #'  direction
 #' @param yrange Numeric vector of length 2, minimum and maximum values in the y
 #'  direction
-#' @param padding Character vector of length 2. Coordinate components with which
-#'  the resulting adjusted coordinate will be padded, using the TikZ 'calc' library
-#'  notation: ($(adjusted_x, adjusted_y)++(pad_x, pad_y)$)
 #' @returns The adjusted TikZ coordinate with padding, as a string.
 uninfinite_coord <- function(coord, xrange, yrange) {
     coord_split <- split_coord(coord)
@@ -110,60 +106,4 @@ discretize <- function(coord_values, xrange, yrange) {
     coord_values[inf & !neg] <- maxs[inf & !neg]
 
     return(coord_values)
-}
-
-
-#' Calculate length of padding from plot borders
-#'
-#' To prevent overlap with panel borders or axis lines, Infinites in TikZ
-#' coordinates are padded with the thickness of these lines. They depend on the
-#' current plot theme.
-#'
-#' @param gg_plot A ggplot2 object.
-#' @returns A character vector of paddings for `t`, `r`, `l`, `b`.
-#'
-#' @seealso \code{\link{uninfinite_coord}} for construction of the complete
-#'  replaced coordinate.
-get_padding <- function(gg_plot) {
-    # Get the theme used for the plot
-    p_theme <- gg_plot$theme
-    class(p_theme) <- class(ggplot2::theme)
-    p_theme <- ggplot2::theme_get() + p_theme
-
-    # Get the lwd of the border and axis lines
-    elements <- c(
-        "panel.border",
-        "axis.line.x.top",
-        "axis.line.x.bottom",
-        "axis.line.y.left",
-        "axis.line.y.right")
-    lwds <- lapply(elements, function(element) {
-        el <- ggplot2::calc_element(element, p_theme)
-        grob <- ggplot2::element_grob(el)
-        lwd <- grob$gp$lwd
-        if (is.null(lwd) || is.na(lwd)) lwd <- 0
-        return(lwd)
-    })
-    names(lwds) <- elements
-
-    # Pad with the panel border size, or the axis line size, whichever is larger
-    padding <- c(
-        t = max(lwds$panel.border, lwds$axis.line.x.top),
-        r = max(lwds$panel.border, lwds$axis.line.y.right),
-        b = max(lwds$panel.border, lwds$axis.line.x.bottom),
-        l = max(lwds$panel.border, lwds$axis.line.y.left)
-    )
-
-    # tikzDevice converts from R lwd to TikZ pt with the tikzLwdUnit factor
-    padding <- padding * getOption("tikzLwdUnit")
-
-    # tikzDevice rounds to one digit
-    padding <- round(padding, 1)
-
-    # We need to pad half the line width
-    padding <- padding/2
-    padding <- paste0(padding, "pt")
-    names(padding) <- c("t", "r", "b", "l")
-
-    return(padding)
 }

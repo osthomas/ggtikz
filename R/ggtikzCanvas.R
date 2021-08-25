@@ -230,6 +230,7 @@ add_annotation_viewport.ggtikzCanvas <- function(self, ggtikzAnnotation) {
     if (all(reference == "plot")) {
         # activate the root viewport
         grid::upViewport(0)
+        pad <- get_padding_plot(self$p)
     } else {
         # activate the panel viewport
         tryCatch(
@@ -238,10 +239,31 @@ add_annotation_viewport.ggtikzCanvas <- function(self, ggtikzAnnotation) {
                 stop("Could not activate the plot panel. Did you forget to print the plot to the device before printing annotations?")
             }
         )
+        pad <- get_padding_panel(self$p)
     }
+
+    # Push the first viewport:
+    # This one has the exact dimensions of the panel/plot, and is used to
+    # place reference points
     vp_name <- get_annotation_name(ggtikzAnnotation)
     vp <- grid::viewport(width=1, height=1, name=vp_name, clip=clip)
     grid::pushViewport(vp)
+
+
+    # Push the second viewport:
+    # This one is reduced in size by the extent of lines surrounding the plot or
+    # panel. Annotations are placed here to prevent them from clipping into these
+    # lines.
+    grid::seekViewport(vp_name)
+    clip_vp <- grid::viewport(
+        x=grid::unit(0, "npc") + pad[4],
+        y=grid::unit(0, "npc") + pad[3],
+        width=grid::unit(1, "npc") - pad[2] - pad[4],
+        height=grid::unit(1, "npc") - pad[1] - pad[3],
+        just=c(0,0),
+        name=paste0(vp_name, "clip"),
+        clip=clip)
+    grid::pushViewport(clip_vp)
 
     return(vp_name)
 }
@@ -304,6 +326,7 @@ draw_annotation.ggtikzCanvas <- function(self, ggtikzAnnotation) {
     # Set up reference coordinate system, taking into account the multiplier
     tikzDevice::grid.tikzAnnotate(paste0("\\path let \\p1 = (coord_length) in coordinate (X) at (\\x1/",ggtikzAnnotation$.mult,",0);"))
     tikzDevice::grid.tikzAnnotate(paste0("\\path let \\p1 = (coord_length) in coordinate (Y) at (0,\\y1/",ggtikzAnnotation$.mult,");"))
+    grid::seekViewport(paste0(vp_name, "clip"))
     tikzDevice::grid.tikzAnnotate(paste0("
     \\begin{scope}[x=(X), y=(Y), shift=(p00)]
     ", ggtikzAnnotation$tikz_code, "

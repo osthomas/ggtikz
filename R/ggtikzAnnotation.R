@@ -42,7 +42,7 @@ ggtikzAnnotation <- function(
     panelx = NULL, panely = NULL,
     transform = TRUE,
     replace_inf = TRUE,
-    clip = "inherit"
+    clip = "on"
 ) {
     if (!is.null(xy)) {
         xy <- match.arg(xy, choices = c("data", "panel", "plot"))

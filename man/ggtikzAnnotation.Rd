@@ -13,7 +13,7 @@ ggtikzAnnotation(
   panely = NULL,
   transform = TRUE,
   replace_inf = TRUE,
-  clip = "inherit"
+  clip = "on"
 )
 }
 \arguments{
