@@ -103,7 +103,7 @@ canvas_log + annot_log + annot_log2
 * Plots can be automatically unclipped to accommodate annotations extending beyond the plot boundaries. See `unclip()` and `set_ggtikz_unclip_hook()`.
 
 * `Inf` and `-Inf` in TikZ coordinate specifications can be automatically replaced
-by the maximum allowed value for the annotation's reference frame the
+by the maximum allowed value for the annotation's reference frame with the
 `transform = TRUE` (now the default) option for `ggtikzAnnotation`.
 
 
