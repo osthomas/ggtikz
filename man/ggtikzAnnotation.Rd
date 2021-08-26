@@ -12,7 +12,8 @@ ggtikzAnnotation(
   panelx = NULL,
   panely = NULL,
   transform = TRUE,
-  clip = "inherit"
+  replace_inf = TRUE,
+  clip = "on"
 )
 }
 \arguments{
@@ -33,6 +34,12 @@ scale transformation? If \code{TRUE}, coordinates in \code{tikz_code} are replac
 the transformation of the x/y scale, as appropriate. Coordinates components
 with physical lengths are not changed. See \code{\link{ggtikzTransform}} for
 details.}
+
+\item{replace_inf}{Should annotation coordinates containing 'Inf' or '-Inf'
+be adjusted so these values correspond to the edge of the available space?
+This is analogous to the behavior of ggplot when infinite values are
+encountered.
+See also \code{\link{ggtikzUninfinite}}}
 
 \item{clip}{Should annotations be clipped to the panel boundaries?
 See the \code{clip} argument to \code{\link[grid]{viewport}}}

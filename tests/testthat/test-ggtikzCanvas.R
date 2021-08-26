@@ -168,7 +168,6 @@ check_added_vp <- function(p, canvas, n, expect) {
     vp_name <- add_annotation_viewport(canvas, canvas$.annotations[[n]])
     expect_cur_vp_equal(expect)
     dev.off()
-    expect_equal(vp_name, expect)
 }
 
 test_that("annotation viewports are added correctly", {
@@ -176,11 +175,11 @@ test_that("annotation viewports are added correctly", {
     canvas <- ggtikzCanvas(p)
     a1 <- ggtikzAnnotation("", xy = "plot")
     canvas <- canvas + a1
-    check_added_vp(p, canvas, 1, "ggtikzannotation_1")
+    check_added_vp(p, canvas, 1, "ggtikzannotation_1clip")
 
     a2 <- ggtikzAnnotation("", xy = "data", panelx=1, panely=1)
     canvas <- canvas + a2
-    check_added_vp(p, canvas, 2, "ggtikzannotation_2")
+    check_added_vp(p, canvas, 2, "ggtikzannotation_2clip")
 })
 
 
@@ -208,5 +207,5 @@ testfun_ggtikz <- function() {
 }
 test_that("drawing annotations does not fail", {
     output <- tempTikz(testfun_ggtikz)
-    expect_match(output[28], "\\\\draw \\(0,0\\) -- \\(1,1\\);")
+    expect_match(output[31], "\\\\draw \\(0,0\\) -- \\(1,1\\);")
 })
