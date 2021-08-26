@@ -80,7 +80,7 @@ canvas_log + annot_log + annot_log2
 
 -   `Inf` and `-Inf` in TikZ coordinate specifications can be
     automatically replaced by the maximum allowed value for the
-    annotation’s reference frame with the `transform = TRUE` (now the
+    annotation’s reference frame with the `replace_inf = TRUE` (now the
     default) option for `ggtikzAnnotation`.
 
 ## Basic Usage
