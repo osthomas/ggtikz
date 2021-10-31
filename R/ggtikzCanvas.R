@@ -122,7 +122,10 @@ get_panel_transforms.ggtikzCanvas <- function(self, panelx, panely) {
     trans_y <- self$built$layout$panel_params[[panel_n]]$y$scale$trans$transform
 
     transforms <- list(x = trans_x, y = trans_y)
-
+    # Discrete scales do not have transformations
+    transforms <- lapply(transforms, function(tf) {
+        if (is.null(tf)) identity else tf
+    })
     return(transforms)
 }
 

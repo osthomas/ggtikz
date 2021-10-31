@@ -76,6 +76,12 @@ test_that("tikz_code in annotations is transformed for data reference frames", {
     expect_transformed_equal(canvas, annotation, "\\draw (10,1) -- (100,2);")
 })
 
+test_that("tikz_code in annotations is transformed correctly for discrete scales", {
+    canvas <- canvas_x_discrete()
+    annotation <- ggtikzAnnotation("\\draw (1,1) -- (2,2);", xy="data", panelx=1, panely=1)
+    expect_transformed_equal(canvas, annotation, "\\draw (1,1) -- (2,2);")
+})
+
 
 test_that("tikz_code in annotations is not transformed for panel reference frames", {
     canvas <- canvas_y_log10()

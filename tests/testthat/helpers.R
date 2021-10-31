@@ -36,3 +36,9 @@ canvas_lin <- function() {
     canvas <- ggtikzCanvas(p)
     return(canvas)
 }
+
+canvas_x_discrete <- function() {
+    p <- ggplot(mtcars, aes(as.factor(cyl), mpg)) + scale_x_discrete() + geom_point()
+    canvas <- ggtikzCanvas(p)
+    return(canvas)
+}
