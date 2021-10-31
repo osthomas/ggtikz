@@ -23,14 +23,20 @@ unclip_tikz <- function(fpath) {
     bblines <- grep("use as bounding box", lines)
     if (length(bblines) > 0) {
         new <- new[-bblines]
-    }
 
-    # The first 'clip' command we find is the one clipping the whole plot
-    cliplines <- grep("clip", lines)
-    if (length(cliplines) > 0) {
-        plotclip <- lines[min(cliplines)]
-        plotcliplines <- grep(plotclip, new, fixed=TRUE)
-        new <- new[-plotcliplines]
+        # First 'use as bounding box' option we find has the coordinates of the
+        # complete plot area. In this command, the origin is formatted as (0,0),
+        # whereas in other clip commands, it is formatted by "%6.2f,%6.2f" (see
+        # tikzDevice.c of the tikzDevice package)
+        bbline <- lines[bblines[1]]
+        cliprect <- regmatches(bbline, regexpr("rectangle [^;]*", bbline))
+        clipstart <- sprintf("\\path[clip] (%6.2f,%6.2f)", 0, 0)
+        clippat <- paste(clipstart, cliprect)
+
+        plotcliplines <- grep(clippat, new, fixed=TRUE)
+        if (length(plotcliplines) > 0) {
+            new <- new[-plotcliplines]
+        }
     }
 
     writeLines(new, fpath)
