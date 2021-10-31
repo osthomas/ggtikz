@@ -22,7 +22,7 @@ Plots with multiple panels (via `facet_grid()` or `facet_wrap()`) are
 supported.
 
 For a few examples, see the [examples
-vignette](https://github.com/osthomas/ggtikz/blob/main/doc/examples.pdf).
+vignette](https://github.com/osthomas/ggtikz/blob/devel/doc/examples.pdf).
 
 ## Installation
 
