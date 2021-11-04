@@ -39,49 +39,10 @@ Or get the development version from GitHub:
 devtools::install_github("osthomas/ggtikz", ref = "devel")
 ```
 
-## New in Devel
-
-[![codecov](https://codecov.io/gh/osthomas/ggtikz/branch/devel/graph/badge.svg?token=0LPNGPFO5Z)](https://codecov.io/gh/osthomas/ggtikz)
-[![R-CMD-check](https://github.com/osthomas/ggtikz/workflows/R-CMD-check/badge.svg?branch=devel)](https://github.com/osthomas/ggtikz/actions)
-
--   The TikZ coordinates used with transformed scales can now be
-    automatically transformed with the `transform = TRUE` (now the
-    default) option for `ggtikzAnnotation`.
-
-``` r
-p_log <- ggplot(mtcars, aes(mpg, disp)) + geom_point() + scale_x_continuous(trans="log10")
-canvas_log <- ggtikzCanvas(p_log)
-
-# Untransformed coordinates: wrong position
-annot_log <- ggtikzAnnotation(
-    "\\fill[red] (1,100) circle (2mm);
-    \\node[anchor=west, text=red] at (1, 100)
-        {The circle is not at (1,100)!};
-    ", xy = "data", transform = FALSE, panelx = 1, panely = 1
-)
-
-# Transformed coordinates: correct position
-annot_log2 <- ggtikzAnnotation(
-    "\\fill[blue] (20,200) circle (2mm);
-    \\node[anchor=south, text=blue] at (20, 200)
-        {This circle is at ({20,200})!};
-    ", xy = "data", transform = TRUE, panelx = 1, panely = 1
-)
-
-p_log
-canvas_log + annot_log + annot_log2
-```
-
-<img src="man/figures/README-transform-example-1.png" width="50%" />
-
--   Plots can be automatically unclipped to accommodate annotations
-    extending beyond the plot boundaries. See `unclip()` and
-    `set_ggtikz_unclip_hook()`.
-
--   `Inf` and `-Inf` in TikZ coordinate specifications can be
-    automatically replaced by the maximum allowed value for the
-    annotation’s reference frame with the `replace_inf = TRUE` (now the
-    default) option for `ggtikzAnnotation`.
+<!-- ## New in Devel
+[![codecov (devel)](https://codecov.io/gh/osthomas/ggtikz/branch/devel/graph/badge.svg?token=0LPNGPFO5Z)](https://codecov.io/gh/osthomas/ggtikz)
+[![R-CMD-check (devel)](https://github.com/osthomas/ggtikz/workflows/R-CMD-check/badge.svg?branch=devel)](https://github.com/osthomas/ggtikz/actions)
+ -->
 
 ## Basic Usage
 
