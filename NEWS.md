@@ -1,4 +1,4 @@
-# New in 0.0.2
+# New in 0.1.0
 
 * Annotations relative to _data_ coordinates respect scale transformations with the `transform=TRUE` option to `ggtikzAnnotation` (new default).
 * Automatically replace `Inf` and `-Inf` in TikZ coordinate specifications with the maximum and minimum for the annotation's reference frame, respectively. This is enabled by setting the `replace_inf=TRUE` option to `ggtikzAnnotation` (new default)

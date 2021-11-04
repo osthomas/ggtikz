@@ -7,7 +7,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/ggtikz)](https://CRAN.R-project.org/package=ggtikz)
-[![codecov](https://codecov.io/gh/osthomas/ggtikz/branch/main/graph/badge.svg?token=0LPNGPFO5Z)](https://codecov.io/gh/osthomas/ggtikz)
+[![codecov](https://codecov.io/gh/osthomas/ggtikz/branch/main/graph/badge.svg?token=0LPNGPFO5Z)](https://app.codecov.io/gh/osthomas/ggtikz)
 [![R-CMD-check](https://github.com/osthomas/ggtikz/workflows/R-CMD-check/badge.svg)](https://github.com/osthomas/ggtikz/actions)
 <!-- badges: end -->
 
