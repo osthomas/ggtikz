@@ -11,7 +11,9 @@ ggtikzAnnotation(
   xy = NULL,
   panelx = NULL,
   panely = NULL,
-  clip = "inherit"
+  transform = TRUE,
+  replace_inf = TRUE,
+  clip = "on"
 )
 }
 \arguments{
@@ -26,6 +28,18 @@ ggtikzAnnotation(
 \item{panelx}{x position of the panel to use as coordinate reference, starting from the left, 1-based.}
 
 \item{panely}{y position of the panel to use as coordinate reference, starting from the top, 1-based.}
+
+\item{transform}{Should TikZ coordinates be transformed according to the
+scale transformation? If \code{TRUE}, coordinates in \code{tikz_code} are replaced by
+the transformation of the x/y scale, as appropriate. Coordinates components
+with physical lengths are not changed. See \code{\link{ggtikzTransform}} for
+details.}
+
+\item{replace_inf}{Should annotation coordinates containing 'Inf' or '-Inf'
+be adjusted so these values correspond to the edge of the available space?
+This is analogous to the behavior of ggplot when infinite values are
+encountered.
+See also \code{\link{ggtikzUninfinite}}}
 
 \item{clip}{Should annotations be clipped to the panel boundaries?
 See the \code{clip} argument to \code{\link[grid]{viewport}}}

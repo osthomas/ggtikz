@@ -9,7 +9,7 @@ test_ggtikz <- function() {
 }
 test_that("the ggtikz helper works", {
     output <- tempTikz(test_ggtikz)
-    expect_match(output[28], "\\\\draw \\(0,0\\) -- \\(1,1\\);")
+    expect_match(output[31], "\\\\draw \\(0,0\\) -- \\(1,1\\);")
 })
 
 

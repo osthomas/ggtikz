@@ -53,6 +53,8 @@ library(ggplot2)
 library(ggtikz)
 opts_chunk$set(
     dev = "tikz",
+    error = TRUE,
+    cache = FALSE,
     external = TRUE,
     fig.path = "example-vignette-figures/",
     fig.width = 3,
@@ -85,7 +87,9 @@ If multiple annotations are needed, then we first need to create a
 Let's create a single-panel plot for annotation.
 
 <<single-panel-setup>>=
-p <- ggplot(mtcars, aes(disp, mpg)) + geom_point()
+p <- ggplot(mtcars, aes(disp, mpg)) +
+    geom_point() +
+    theme(plot.background=element_rect(color = "black", size = 1))
 @
 
 We can then set up an annotation canvas and add tikz annotations. Note that
@@ -205,6 +209,33 @@ plot margins.
 p + theme(plot.margin = margin(t=0.5, b = 1, unit = "cm"))
 canvas + annotation_clip + annotation_unclip + annotation_unclip2
 @
+
+
+Alternatively, \verb|ggtikz| comes with a knitr hook to automatically unclip
+TikZ files:
+
+<<set-unclip-hook>>=
+set_ggtikz_unclip_hook()
+@
+
+Now clipping can be disabled for chunks with the \emph{chunk option}
+\verb|unclip = TRUE| -- however, this only works in conjunction with
+\verb|external = FALSE|.
+If the option \verb|external = TRUE|, then the resulting file is immediately
+compiled to pdf and not accessible for further post-processing.
+
+<<single-panel-clipping3, external=FALSE, unclip=TRUE>>=
+# chunk options: external=FALSE, unclip=TRUE
+p
+canvas + annotation_unclip2
+@
+
+Unset the hook to restore the default clipping behavior:
+
+<<unset-unclip-hook>>=
+unset_ggtikz_unclip_hook()
+@
+
 
 
 \subsection{Multi-panel plots: wrap}
@@ -344,6 +375,75 @@ p
 
 canvas <- ggtikzCanvas(p)
 canvas + annot_grid2
+@
+
+
+\section{Transformed scales}
+TikZ coordinates can automatically be transformed to accommodate transformed
+scales, such as log-transformed ones. This is activated by setting
+\verb|transform = TRUE| in the call to \verb|ggtikzAnnotation|.
+With \verb|transform = FALSE|, annotations made with data coordinates are out
+of place in log plots, but the transformation calculation can be done manually.
+
+<<logplot>>=
+p_log <- ggplot(mtcars, aes(mpg, disp)) +
+    geom_point() +
+    scale_x_continuous(trans="log10")
+@
+
+
+<<logplot-transform>>=
+canvas_log <- ggtikzCanvas(p_log)
+# Untransformed coordinates: wrong position
+annot_log <- ggtikzAnnotation(
+    "\\fill[red] (1,100) circle (2mm);
+    \\node[anchor=west, text=red] at (1, 100)
+        {The circle is not at (1,100)!};
+    ", xy = "data", transform = FALSE, panelx = 1, panely = 1
+)
+
+# Transformed coordinates: correct position
+# The literal coordinate in the node text was wrapped in an \mbox
+# LaTeX command to prevent automatic transformation -- it can't
+# distinguish between coordinates which are supposed to be text,
+# and actual coorinates.
+annot_log2 <- ggtikzAnnotation(
+    "\\fill[blue] (20,200) circle (2mm);
+    \\node[anchor=south, text=blue] at (20, 200)
+        {This circle is at (\\mbox{20,200})!};
+    ", xy = "data", transform = TRUE, panelx = 1, panely = 1
+)
+
+# Untransformed coordinates, calculated manually by hand:
+# correct position
+annot_log3 <- ggtikzAnnotation(
+    "\\fill[magenta] (1.477,400) circle (2mm);
+    \\node[anchor=east, text=magenta] at (1.477, 400)
+        {This circle is at (30,400)!};
+    ", xy = "data", transform = FALSE, panelx = 1, panely = 1
+)
+p_log
+canvas_log + annot_log + annot_log2 + annot_log3
+@
+
+
+\section{Using \emph{Inf} and \emph{-Inf} in annotations}
+In \verb|ggplot2|, \verb|-Inf| and \verb|Inf| can be used to refer to the edge
+of a panel. This is also possible in ggtikzAnnotations, by setting
+\verb|replace_inf = TRUE|. \verb|-Inf| and \verb|Inf| will then be automatically
+replaced to refer to the left/bottom or right/top edge of a panel, respectively.
+
+<<inf-replace>>=
+p_log_border <- p_log +
+    theme(panel.border = element_rect(fill=NA, size = 2))
+canvas_log_border <- ggtikzCanvas(p_log_border)
+annot_inf <- ggtikzAnnotation(
+    "\\draw[red, thick] (-Inf,200) -| (20,-Inf);
+    \\draw[green, thick] (-Inf,200) |- (20,-Inf);
+    ", xy = "data", replace_inf = TRUE, panelx = 1, panely = 1
+)
+p_log_border
+canvas_log_border + annot_inf
 @
 
 

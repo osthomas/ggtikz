@@ -1,6 +1,6 @@
 Package: ggtikz
 Title: Post-Process 'ggplot2' Plots with 'TikZ' Code Using Plot Coordinates
-Version: 0.0.1
+Version: 0.1.0
 Authors@R:
     person(given = "Oliver",
            family = "Thomas",
@@ -8,6 +8,8 @@ Authors@R:
            email = "oliver.thomas@sgbm.uni-freiburg.de")
 Description: Annotation of 'ggplot2' plots with arbitrary 'TikZ' code, using absolute data or relative plot coordinates.
 License: MIT + file LICENSE
+URL: https://github.com/osthomas/ggtikz
+BugReports: https://github.com/osthomas/ggtikz/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -18,6 +20,7 @@ Imports:
     ggplot2,
     tikzDevice
 Suggests:
+    stringr,
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
