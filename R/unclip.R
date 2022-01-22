@@ -61,7 +61,8 @@ unclip_tikz <- function(fpath) {
 unclip <- function(before, options) {
     if (!before & options$unclip != FALSE) {
         plot_files <- unique(knitr::opts_knit$get("plot_files"))
-        tikz_files <- grep("[.]tex", plot_files, ignore.case = TRUE, value = TRUE)
+        ext_pattern <- sprintf("[.]%s", options$fig.ext)
+        tikz_files <- grep(ext_pattern, plot_files, ignore.case = TRUE, value = TRUE)
         for (tikz_file in tikz_files) {
             unclip_tikz(tikz_file)
         }
