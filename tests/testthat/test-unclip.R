@@ -1,3 +1,24 @@
+test_that("tikz extensions are identified correctly without fig.ext", {
+    options <- list(dev = "tikz")
+    res <- tikz_exts_pattern(options)
+    expect_equal(res, "[.](tex)")
+})
+
+
+test_that("tikz extensions are identified correctly with fig.ext", {
+    options <- list(dev = "tikz", fig.ext = "tikz")
+    res <- tikz_exts_pattern(options)
+    expect_equal(res, "[.](tikz)")
+})
+
+
+test_that("tikz extensions are identified correctly with multiple devs and fig.exts", {
+    options <- list(dev = c("png", "tikz"), fig.ext = c("png", "tikz"))
+    res <- tikz_exts_pattern(options)
+    expect_equal(res, "[.](tikz)")
+})
+
+
 test_that("unclip_tikz removes clip and use as bounding box", {
     clipped <- readLines(system.file("testdata", "plot_clipped.tex", package="ggtikz"))
     unclipped <- readLines(system.file("testdata", "plot_unclipped.tex", package="ggtikz"))

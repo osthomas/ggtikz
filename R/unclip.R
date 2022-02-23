@@ -61,12 +61,24 @@ unclip_tikz <- function(fpath) {
 unclip <- function(before, options) {
     if (!before & options$unclip != FALSE) {
         plot_files <- unique(knitr::opts_knit$get("plot_files"))
-        ext_pattern <- sprintf("[.]%s", options$fig.ext)
+        ext_pattern <- tikz_exts_pattern(options)
         tikz_files <- grep(ext_pattern, plot_files, ignore.case = TRUE, value = TRUE)
         for (tikz_file in tikz_files) {
             unclip_tikz(tikz_file)
         }
     }
+}
+
+
+#' Construct a regex pattern for possible tikzDevice extensions.
+tikz_exts_pattern <- function(options) {
+    devs <- options$dev
+    exts <- options$fig.ext
+    if (is.null(exts)) exts <- knitr:::dev2ext(devs)
+    dev_exts <- data.frame(dev = devs, ext = exts)
+    tikz_exts <- dev_exts[dev_exts$dev == "tikz", "ext"]
+    pattern <- sprintf("[.](%s)",paste(tikz_exts, collapse="|"))
+    return(pattern)
 }
 
 
