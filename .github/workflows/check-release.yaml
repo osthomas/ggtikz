@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
-      - uses: r-lib/actions/setup-tinytex@v1
+      - uses: r-lib/actions/setup-tinytex@v2
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))
@@ -34,7 +34,9 @@ jobs:
       - name: Install tikzDevice system dependencies
         run: brew install ghostscript
       - name: Install tikzDevice LaTeX package dependencies
-        run: tlmgr install pgf preview grfext xcolor listings
+        run: |
+          tlmgr update --self
+          tlmgr install pgf preview grfext xcolor listings
       - name: Check
         run: |
           options(crayon.enabled = TRUE)

@@ -27,12 +27,14 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-      - uses: r-lib/actions/setup-tinytex@v1
+      - uses: r-lib/actions/setup-tinytex@v2
 
       - name: Install tikzDevice system dependencies
         run: brew install ghostscript
       - name: Install tikzDevice LaTeX package dependencies
-        run: tlmgr install pgf preview grfext xcolor
+        run: |
+          tlmgr update --self
+          tlmgr install pgf preview grfext xcolor
       - name: Query dependencies
         run: |
           install.packages('remotes')
