@@ -35,6 +35,7 @@ jobs:
         run: |
           tlmgr update --self
           tlmgr install pgf preview grfext xcolor
+
       - name: Query dependencies
         run: |
           install.packages('remotes')
@@ -51,11 +52,16 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages(c("remotes"))
+          install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("covr")
         shell: Rscript {0}
 
       - name: Test coverage
         run: covr::codecov()
+        shell: Rscript {0}
+
+      - name: Check
+        run: |
+          options(crayon.enabled = TRUE)
+          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "error")
         shell: Rscript {0}
