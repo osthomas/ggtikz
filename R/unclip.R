@@ -74,10 +74,13 @@ unclip <- function(before, options) {
 tikz_exts_pattern <- function(options) {
     devs <- options$dev
     exts <- options$fig.ext
-    if (is.null(exts)) exts <- knitr:::dev2ext(devs)
-    dev_exts <- data.frame(dev = devs, ext = exts)
-    tikz_exts <- dev_exts[dev_exts$dev == "tikz", "ext"]
-    pattern <- sprintf("[.](%s)",paste(tikz_exts, collapse="|"))
+    if (is.null(exts)) {
+        # the default
+        exts <- "tex"
+    } else {
+        exts <- exts[which(devs == "tikz")]
+    }
+    pattern <- sprintf("[.](%s)",paste(exts, collapse="|"))
     return(pattern)
 }
 
