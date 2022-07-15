@@ -54,23 +54,3 @@ test_that("removal of Inf from annotations works in a log scale", {
     c1$p <- c1$p + theme(panel.border = element_rect(size=5))
     expect_uninfinite_equal(c1, annot_data, "\\draw (9.225,2.67394199863409) -- (35.075,1.85186960072977);")
 })
-
-
-test_that("ggtikzUnfinite raises an error only when replacements are necessary and stringr is missing", {
-    c1 <- canvas_lin()
-    annot_uninf <- ggtikzAnnotation("", xy = "plot", replace_inf = TRUE)
-    annot_nouninf <- ggtikzAnnotation("", xy = "plot", replace_inf = FALSE)
-
-    with_mock_requireNamespace(FALSE,
-        expect_error(ggtikzUninfinite(c1, annot_uninf), "requires the `stringr` package")
-    )
-    with_mock_requireNamespace(FALSE,
-        expect_error(ggtikzUninfinite(c1, annot_nouninf), NA)
-    )
-    with_mock_requireNamespace(TRUE,
-        expect_error(ggtikzUninfinite(c1, annot_uninf), NA)
-    )
-    with_mock_requireNamespace(TRUE,
-        expect_error(ggtikzUninfinite(c1, annot_nouninf), NA)
-    )
-})

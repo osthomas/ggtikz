@@ -1,15 +1,3 @@
-get_stringr_required <- function(transforms) {
-    # stringr is only required if transforms need to be done
-    # no transforms are needed if all transforms are `identity`
-    all_identity <- all(sapply(transforms, function(f) identical(f, identity)))
-    if (!all_identity) {
-        stringr_available <- suppressPackageStartupMessages(requireNamespace("stringr"))
-        if (!stringr_available)
-            stop("ggtikzTransform requires the `stringr` package.")
-    }
-}
-
-
 #' Transform TikZ coordinates according to scale transformations
 #'
 #' ggtikzTransform extracts coordinates definitions in an annotation's TikZ code
@@ -41,7 +29,6 @@ ggtikzTransform <- function(ggtikzCanvas, ggtikzAnnotation) {
         panelx <- ggtikzAnnotation$panelx
         panely <- ggtikzAnnotation$panely
         transforms <- get_panel_transforms(ggtikzCanvas, panelx, panely)
-        get_stringr_required(transforms)
 
         # Do not transform panel and plot references
         reference <- ggtikzAnnotation$reference

@@ -16,11 +16,11 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports:
     dplyr,
+    stringr,
     grid,
     ggplot2,
     tikzDevice
 Suggests:
-    stringr,
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),

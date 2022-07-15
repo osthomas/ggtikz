@@ -11,16 +11,16 @@ tempTikz <- function(fun, ...) {
 }
 
 
-with_mock_requireNamespace <- function(value, code) {
-    orig_requireNamespace <- base::requireNamespace
-    mock_requireNamespace <- function(...) value
-    unlockBinding("requireNamespace", as.environment("package:base"))
-    assign("requireNamespace", mock_requireNamespace, "package:base")
+with_mock_require <- function(value, code) {
+    orig_require <- base::require
+    mock_require <- function(...) value
+    unlockBinding("require", as.environment("package:base"))
+    assign("require", mock_require, "package:base")
 
     eval(code)
 
-    assign("requireNamespace", orig_requireNamespace, "package:base")
-    lockBinding("requireNamespace", as.environment("package:base"))
+    assign("require", orig_require, "package:base")
+    lockBinding("require", as.environment("package:base"))
 }
 
 
