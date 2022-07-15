@@ -6,6 +6,12 @@
 \usage{
 tikz_exts_pattern(options)
 }
+\arguments{
+\item{options}{A list of \code{knitr} chunk options}
+}
+\value{
+A regex pattern to match file extensions of tikz figures
+}
 \description{
 Construct a regex pattern for possible tikzDevice extensions.
 }

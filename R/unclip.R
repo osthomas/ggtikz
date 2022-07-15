@@ -71,6 +71,10 @@ unclip <- function(before, options) {
 
 
 #' Construct a regex pattern for possible tikzDevice extensions.
+#'
+#' @param options A list of `knitr` chunk options
+#'
+#' @returns A regex pattern to match file extensions of tikz figures
 tikz_exts_pattern <- function(options) {
     devs <- options$dev
     exts <- options$fig.ext
