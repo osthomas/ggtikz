@@ -8,6 +8,5 @@
 \.aux$
 \.log$
 \.toc$
-\.tex$
 ^\.github$
 ^CRAN-RELEASE$
