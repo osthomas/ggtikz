@@ -1,3 +1,8 @@
+# New in 0.1.1
+
+* Unclipping now works for files with an extension which is not `.tex`, which can happen when the `fig.ext` chunk option is used.
+* `stringr` is now a mandatory dependency.
+
 # New in 0.1.0
 
 * Annotations relative to _data_ coordinates respect scale transformations with the `transform=TRUE` option to `ggtikzAnnotation` (new default).
