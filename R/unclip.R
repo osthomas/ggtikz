@@ -61,11 +61,31 @@ unclip_tikz <- function(fpath) {
 unclip <- function(before, options) {
     if (!before & options$unclip != FALSE) {
         plot_files <- unique(knitr::opts_knit$get("plot_files"))
-        tikz_files <- grep("[.]tex", plot_files, ignore.case = TRUE, value = TRUE)
+        ext_pattern <- tikz_exts_pattern(options)
+        tikz_files <- grep(ext_pattern, plot_files, ignore.case = TRUE, value = TRUE)
         for (tikz_file in tikz_files) {
             unclip_tikz(tikz_file)
         }
     }
+}
+
+
+#' Construct a regex pattern for possible tikzDevice extensions.
+#'
+#' @param options A list of `knitr` chunk options
+#'
+#' @returns A regex pattern to match file extensions of tikz figures
+tikz_exts_pattern <- function(options) {
+    devs <- options$dev
+    exts <- options$fig.ext
+    if (is.null(exts)) {
+        # the default
+        exts <- "tex"
+    } else {
+        exts <- exts[which(devs == "tikz")]
+    }
+    pattern <- sprintf("[.](%s)",paste(exts, collapse="|"))
+    return(pattern)
 }
 
 

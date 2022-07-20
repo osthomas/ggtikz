@@ -12,9 +12,6 @@
 #' @returns A \code{link{ggtikzAnnotation}} object, with Infinites in coordinates
 #'  replaced by finite values.
 ggtikzUninfinite <- function(ggtikzCanvas, ggtikzAnnotation) {
-    if (ggtikzAnnotation$replace_inf && !requireNamespace("stringr"))
-        stop("ggtikzUninfinite requires the `stringr` package.")
-
     reference <- ggtikzAnnotation$reference
     ranges <- get_panel_range(
         ggtikzCanvas,

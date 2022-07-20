@@ -116,30 +116,3 @@ test_that("tikz_code in annotations is transformed only once", {
     annotation_tf2 <- ggtikzTransform(canvas, annotation_tf)
     expect_equal(annotation_tf2$tikz_code, "\\draw (10,1) -- (100,2);")
 })
-
-
-test_that("get_stringr_required raises an error when transforms are necessary and stringr is missing", {
-    need_tfs <- list(x=function(){}, y=function(){})
-    with_mock_requireNamespace(FALSE,
-        expect_error(get_stringr_required(need_tfs), "requires the `stringr` package")
-    )
-})
-
-
-test_that("get_stringr_required raises no error when transforms are necessary and stringr is available", {
-    need_tfs <- list(x=function(){}, y=function(){})
-    with_mock_requireNamespace(TRUE,
-        expect_error(get_stringr_required(need_tfs), NA)
-    )
-})
-
-
-test_that("get_stringr_required raises no error when no transforms are necessary", {
-    noneed_tfs <- list(x=identity, y=identity)
-    with_mock_requireNamespace(TRUE,
-        expect_error(get_stringr_required(noneed_tfs), NA)
-    )
-    with_mock_requireNamespace(FALSE,
-        expect_error(get_stringr_required(noneed_tfs), NA)
-    )
-})

@@ -65,7 +65,9 @@ get_padding_from_elements <- function(gg_plot, elements_t, elements_r, elements_
         l = max(lwds[elements_l])
     )
     # Pad with half the line width, because half of the line extends out of the
-    # plot area. Apply the tikzDevice tikzLwdUnit factor.
+    # plot area. Apply the tikzDevice tikzLwdUnit factor; load the package if it
+    # isn't already to set the default option.
+    requireNamespace("tikzDevice")
     padding <- grid::unit(padding, "pt") * getOption("tikzLwdUnit") * 0.5
     return(padding)
 }
