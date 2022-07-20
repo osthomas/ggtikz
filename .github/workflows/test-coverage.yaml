@@ -1,0 +1,43 @@
+on:
+  push:
+    paths-ignore:
+      - 'README.*'
+      - 'man/figures/README-*'
+    branches:
+      - main
+      - devel
+      - devel-actions
+  pull_request:
+    branches:
+      - main
+      - devel
+      - devel-actions
+
+name: test-coverage-check
+
+jobs:
+  test-coverage-check:
+    runs-on: macOS-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v1
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+
+      - uses: r-lib/actions/setup-tinytex@v2
+
+      - name: Install tikzDevice LaTeX package dependencies
+        run: |
+          tlmgr update --self
+          tlmgr install pgf preview grfext xcolor listings
+
+      - name: Test coverage
+        run: covr::codecov()
+        shell: Rscript {0}
