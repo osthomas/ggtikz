@@ -77,7 +77,7 @@ print.ggtikzCanvas <- function(x, ...) draw_annotations(x)
 
 
 #' @export
-get_panel_info.ggtikzCanvas <- function(self) {
+get_panel_info.ggtikzCanvas <- function(self, ...) {
     gtable <- self$gtable
     built <- self$built
 
@@ -103,7 +103,7 @@ get_panel_info.ggtikzCanvas <- function(self) {
 
 
 #' @export
-get_panel_range.ggtikzCanvas <- function(self, panelx, panely) {
+get_panel_range.ggtikzCanvas <- function(self, panelx, panely, ...) {
     idx <- get_panel_index(self, panelx, panely)
     panel_n <- self$panel_info[idx, "PANEL"]
     xrange <- self$built$layout$panel_params[[panel_n]]$x.range
@@ -115,7 +115,7 @@ get_panel_range.ggtikzCanvas <- function(self, panelx, panely) {
 
 
 #' @export
-get_panel_transforms.ggtikzCanvas <- function(self, panelx, panely) {
+get_panel_transforms.ggtikzCanvas <- function(self, panelx, panely, ...) {
     idx <- get_panel_index(self, panelx, panely)
     panel_n <- self$panel_info[idx, "PANEL"]
     trans_x <- self$built$layout$panel_params[[panel_n]]$x$scale$trans$transform
@@ -137,6 +137,7 @@ get_panel_transforms.ggtikzCanvas <- function(self, panelx, panely) {
 #'   at `coord[1]` and the y coordinate to convert at `coord[2]`
 #' @param panelx X position (column) of the panel holding the data
 #' @param panely X position (row) of the panel holding the data
+#' @param ... unused
 #'
 #' @returns The input coordinates from `coord` converted to npc coordinates in
 #'   the form of a numeric vector of length 2. (0,0) corresponds to the lower
@@ -144,7 +145,7 @@ get_panel_transforms.ggtikzCanvas <- function(self, panelx, panely) {
 #'   `panelx` and `panely`, and (1,1) corresponds to the upper right corner.
 #'
 #' @export
-gg_to_npc.ggtikzCanvas <- function(self, coord, panelx, panely) {
+gg_to_npc.ggtikzCanvas <- function(self, coord, panelx, panely, ...) {
     ranges <- get_panel_range(self, panelx, panely)
 
     coords <- c(
@@ -157,7 +158,7 @@ gg_to_npc.ggtikzCanvas <- function(self, coord, panelx, panely) {
 
 
 #' @export
-get_refpoints.ggtikzCanvas <- function(self, ggtikzAnnotation) {
+get_refpoints.ggtikzCanvas <- function(self, ggtikzAnnotation, ...) {
     # Store coordinates for extreme points of reference frame
 
     reference <- ggtikzAnnotation$reference
@@ -197,7 +198,7 @@ get_refpoints.ggtikzCanvas <- function(self, ggtikzAnnotation) {
 
 
 #' @export
-get_panel_index.ggtikzCanvas <- function(self, panelx, panely) {
+get_panel_index.ggtikzCanvas <- function(self, panelx, panely, ...) {
     idx <- which(self$panel_info$COL == panelx & self$panel_info$ROW == panely)
     if (length(idx) == 0)
         stop(sprintf("Panel at (%d,%d) is not available", panelx, panely))
@@ -207,7 +208,7 @@ get_panel_index.ggtikzCanvas <- function(self, panelx, panely) {
 
 
 #' @export
-get_panel_viewport_name.ggtikzCanvas <- function(self, panelx, panely) {
+get_panel_viewport_name.ggtikzCanvas <- function(self, panelx, panely, ...) {
     idx <- get_panel_index(self, panelx, panely)
     panel <- self$panel_info[idx,]
     vp_name <- sprintf("%s.%d-%d-%d-%d", panel$name, panel$t, panel$r, panel$b, panel$l)
@@ -217,7 +218,7 @@ get_panel_viewport_name.ggtikzCanvas <- function(self, panelx, panely) {
 
 
 #' @export
-activate_panel.ggtikzCanvas <- function(self, panelx, panely) {
+activate_panel.ggtikzCanvas <- function(self, panelx, panely, ...) {
     vp_name <- get_panel_viewport_name(self, panelx, panely)
     grid::seekViewport(vp_name)
 }
@@ -225,7 +226,7 @@ activate_panel.ggtikzCanvas <- function(self, panelx, panely) {
 
 
 #' @export
-add_annotation_viewport.ggtikzCanvas <- function(self, ggtikzAnnotation) {
+add_annotation_viewport.ggtikzCanvas <- function(self, ggtikzAnnotation, ...) {
     reference <- ggtikzAnnotation$reference
     panelx <- ggtikzAnnotation$panelx
     panely <- ggtikzAnnotation$panely
@@ -273,7 +274,7 @@ add_annotation_viewport.ggtikzCanvas <- function(self, ggtikzAnnotation) {
 
 
 #' @export
-get_annotation_valid.ggtikzCanvas <- function(self, ggtikzAnnotation) {
+get_annotation_valid.ggtikzCanvas <- function(self, ggtikzAnnotation, ...) {
     if (!inherits(ggtikzAnnotation, "ggtikzAnnotation"))
         stop("ggtikz annotations must be created with ggtikzAnnotation().")
 
@@ -298,7 +299,7 @@ get_annotation_valid.ggtikzCanvas <- function(self, ggtikzAnnotation) {
 }
 
 #' @export
-add_annotation.ggtikzCanvas <- function(self, ggtikzAnnotation) {
+add_annotation.ggtikzCanvas <- function(self, ggtikzAnnotation, ...) {
     get_annotation_valid(self, ggtikzAnnotation)
     ggtikzAnnotation$.id <- length(self$.annotations) + 1
     ggtikzAnnotation <- ggtikzTransform(self, ggtikzAnnotation)
@@ -315,7 +316,7 @@ add_annotation.ggtikzCanvas <- function(self, ggtikzAnnotation) {
 
 
 #' @export
-draw_annotation.ggtikzCanvas <- function(self, ggtikzAnnotation) {
+draw_annotation.ggtikzCanvas <- function(self, ggtikzAnnotation, ...) {
     vp_name <- add_annotation_viewport(self, ggtikzAnnotation)
     grid::seekViewport(vp_name)
 
@@ -339,7 +340,7 @@ draw_annotation.ggtikzCanvas <- function(self, ggtikzAnnotation) {
 
 
 #' @export
-draw_annotations.ggtikzCanvas <- function(self) {
+draw_annotations.ggtikzCanvas <- function(self, ...) {
     for (annotation in self$.annotations) {
         draw_annotation(self, annotation)
     }
