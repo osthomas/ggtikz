@@ -10,3 +10,4 @@
 \.toc$
 ^\.github$
 ^CRAN-RELEASE$
+^CRAN-SUBMISSION$
