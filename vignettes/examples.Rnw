@@ -89,7 +89,7 @@ Let's create a single-panel plot for annotation.
 <<single-panel-setup>>=
 p <- ggplot(mtcars, aes(disp, mpg)) +
     geom_point() +
-    theme(plot.background=element_rect(color = "black", size = 1))
+    theme(plot.background=element_rect(color = "black", linewidth = 1))
 @
 
 We can then set up an annotation canvas and add tikz annotations. Note that
@@ -435,7 +435,7 @@ replaced to refer to the left/bottom or right/top edge of a panel, respectively.
 
 <<inf-replace>>=
 p_log_border <- p_log +
-    theme(panel.border = element_rect(fill=NA, size = 2))
+    theme(panel.border = element_rect(fill = NA, linewidth = 2))
 canvas_log_border <- ggtikzCanvas(p_log_border)
 annot_inf <- ggtikzAnnotation(
     "\\draw[red, thick] (-Inf,200) -| (20,-Inf);

@@ -38,7 +38,7 @@ test_that("removal of Inf from annotations works in a linear scale", {
     annot_data <- ggtikzAnnotation("\\draw (-Inf,Inf) -- (Inf,-Inf);", xy = "data", panelx=1, panely=1)
     expect_uninfinite_equal(c1, annot_data, "\\draw (9.225,472) -- (35.075,71.1);")
 
-    c1$p <- c1$p + theme(panel.border = element_rect(size=5))
+    c1$p <- c1$p + theme(panel.border = element_rect(linewidth = 5))
     expect_uninfinite_equal(c1, annot_data, "\\draw (9.225,472) -- (35.075,71.1);")
 })
 
@@ -51,6 +51,6 @@ test_that("removal of Inf from annotations works in a log scale", {
     annot_data <- ggtikzAnnotation("\\draw (-Inf,Inf) -- (Inf,-Inf);", xy = "data", panelx=1, panely=1)
     expect_uninfinite_equal(c1, annot_data, "\\draw (9.225,2.67394199863409) -- (35.075,1.85186960072977);")
 
-    c1$p <- c1$p + theme(panel.border = element_rect(size=5))
+    c1$p <- c1$p + theme(panel.border = element_rect(linewidth  = 5))
     expect_uninfinite_equal(c1, annot_data, "\\draw (9.225,2.67394199863409) -- (35.075,1.85186960072977);")
 })
