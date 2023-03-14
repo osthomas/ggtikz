@@ -4,7 +4,7 @@
 \alias{gg_to_npc.ggtikzCanvas}
 \title{Convert data coordinates to npc coordinates.}
 \usage{
-\method{gg_to_npc}{ggtikzCanvas}(self, coord, panelx, panely)
+\method{gg_to_npc}{ggtikzCanvas}(self, coord, panelx, panely, ...)
 }
 \arguments{
 \item{self}{a \code{\link{ggtikzCanvas}} object}
@@ -15,6 +15,8 @@ at \code{coord[1]} and the y coordinate to convert at \code{coord[2]}}
 \item{panelx}{X position (column) of the panel holding the data}
 
 \item{panely}{X position (row) of the panel holding the data}
+
+\item{...}{unused}
 }
 \value{
 The input coordinates from \code{coord} converted to npc coordinates in

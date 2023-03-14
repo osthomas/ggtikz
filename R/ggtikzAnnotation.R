@@ -95,7 +95,7 @@ ggtikzAnnotation <- function(
 
 
 #' @export
-get_annotation_name.ggtikzAnnotation <- function(self) {
+get_annotation_name.ggtikzAnnotation <- function(self, ...) {
     id <- self$.id
     if (is.null(id)) {
         stop("An annotation name can only be given once the annotation has been added to a ggtikz object.")

@@ -1,7 +1,7 @@
 test_that("get_padding_from_elements works", {
     p <- ggplot() + theme(
-        panel.border = element_rect(size = 1),
-        plot.background = element_rect(size = 2)
+        panel.border = element_rect(linewidth = 1),
+        plot.background = element_rect(linewidth = 2)
     )
     expect_equal(
         get_padding_from_elements(p, "panel.border", "plot.background", "panel.border", "plot.background"),
@@ -26,23 +26,23 @@ test_that("padding is calculated correctly for panels", {
     p <- ggplot()
 
     theme1 <- theme(
-        panel.border = element_rect(size = 1),
-        axis.line.x = element_line(size = 2))
+        panel.border = element_rect(linewidth = 1),
+        axis.line.x = element_line(linewidth = 2))
     expect_equal(get_padding_panel(p + theme1), grid::unit(c(2, 1, 2, 1), unit = "pt"))
 
     theme2 <- theme(
-        panel.border = element_rect(size = 1),
-        axis.line = element_line(size = 5))
+        panel.border = element_rect(linewidth = 1),
+        axis.line = element_line(linewidth = 5))
     expect_equal(get_padding_panel(p + theme2), grid::unit(c(5, 5, 5, 5), unit = "pt"))
 
     theme3 <- theme(
-        panel.border = element_rect(size = 1),
-        axis.line.y.left = element_line(size = 0))
+        panel.border = element_rect(linewidth = 1),
+        axis.line.y.left = element_line(linewidth = 0))
     expect_equal(get_padding_panel(p + theme3), grid::unit(c(1, 1, 1, 1), unit = "pt"))
 
     theme4 <- theme(
-        panel.border = element_rect(size = 1),
-        axis.line.y.left = element_line(size = 5))
+        panel.border = element_rect(linewidth = 1),
+        axis.line.y.left = element_line(linewidth = 5))
     expect_equal(get_padding_panel(p + theme4), grid::unit(c(1, 1, 1, 5), unit = "pt"))
 
 })
@@ -56,7 +56,7 @@ test_that("padding is calculated correctly for plots", {
     p <- ggplot()
 
     theme1 <- theme(
-        plot.background = element_rect(size = 1))
+        plot.background = element_rect(linewidth = 1))
     expect_equal(get_padding_plot(p + theme1), grid::unit(c(1, 1, 1, 1), unit = "pt"))
 
 })
