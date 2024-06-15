@@ -1,7 +1,8 @@
 inst/doc
 /doc/
 /Meta/
-sublime-*
 *-tikzDictionary
 *.tex
+
+!doc/examples.pdf
 !inst/testdata/*.tex
