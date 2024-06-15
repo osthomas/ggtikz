@@ -1,3 +1,11 @@
+# New in 0.1.3
+
+* Maintenance release without user-facing changes
+
+# New in 0.1.2
+
+* Maintenance release without user-facing changes
+
 # New in 0.1.1
 
 * Unclipping now works for files with an extension which is not `.tex`, which can happen when the `fig.ext` chunk option is used.
