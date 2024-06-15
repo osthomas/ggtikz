@@ -5,7 +5,7 @@ Authors@R:
     person(given = "Oliver",
            family = "Thomas",
            role = c("aut", "cre"),
-           email = "oliver.thomas@sgbm.uni-freiburg.de")
+           email = "ost.dev@posteo.net")
 Description: Annotation of 'ggplot2' plots with arbitrary 'TikZ' code, using absolute data or relative plot coordinates.
 License: MIT + file LICENSE
 URL: https://github.com/osthomas/ggtikz
