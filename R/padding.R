@@ -44,9 +44,9 @@ get_padding_plot <- function(gg_plot) {
 #'  replaced coordinate.
 get_padding_from_elements <- function(gg_plot, elements_t, elements_r, elements_b, elements_l) {
     # Get the theme used for the plot
-    p_theme <- gg_plot$theme
-    class(p_theme) <- class(ggplot2::theme)
-    p_theme <- ggplot2::theme_get() + p_theme
+    # Use the same (unexported) function as used internally by ggplot2
+    plot_theme <- utils::getFromNamespace("plot_theme", "ggplot2")
+    p_theme <- plot_theme(gg_plot)
 
     elements <- unique(c(elements_t, elements_r, elements_b, elements_l))
 
