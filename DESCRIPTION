@@ -1,6 +1,6 @@
 Package: ggtikz
 Title: Post-Process 'ggplot2' Plots with 'TikZ' Code Using Plot Coordinates
-Version: 0.1.2
+Version: 0.1.3
 Authors@R:
     person(given = "Oliver",
            family = "Thomas",
