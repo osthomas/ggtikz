@@ -124,19 +124,19 @@ test_that("Panel viewport names are determined correctly", {
 
     p_grid1 <- p + facet_grid(a~b, as.table = TRUE)
     expect_vp_name_equal(p_grid1, 1, 1, "panel-1-1.10-7-10-7")
-    expect_vp_name_equal(p_grid1, 2, 1, "panel-1-2.10-9-10-9")
-    expect_vp_name_equal(p_grid1, 1, 2, "panel-2-1.12-7-12-7")
+    expect_vp_name_equal(p_grid1, 2, 1, "panel-2-1.10-9-10-9")
+    expect_vp_name_equal(p_grid1, 1, 2, "panel-1-2.12-7-12-7")
     expect_vp_name_equal(p_grid1, 2, 2, "panel-2-2.12-9-12-9")
-    expect_vp_name_equal(p_grid1, 1, 3, "panel-3-1.14-7-14-7")
-    expect_vp_name_equal(p_grid1, 2, 3, "panel-3-2.14-9-14-9")
+    expect_vp_name_equal(p_grid1, 1, 3, "panel-1-3.14-7-14-7")
+    expect_vp_name_equal(p_grid1, 2, 3, "panel-2-3.14-9-14-9")
 
     p_grid2 <- p + facet_grid(a~b, as.table = FALSE)
     expect_vp_name_equal(p_grid1, 1, 1, "panel-1-1.10-7-10-7")
-    expect_vp_name_equal(p_grid1, 2, 1, "panel-1-2.10-9-10-9")
-    expect_vp_name_equal(p_grid1, 1, 2, "panel-2-1.12-7-12-7")
+    expect_vp_name_equal(p_grid1, 2, 1, "panel-2-1.10-9-10-9")
+    expect_vp_name_equal(p_grid1, 1, 2, "panel-1-2.12-7-12-7")
     expect_vp_name_equal(p_grid1, 2, 2, "panel-2-2.12-9-12-9")
-    expect_vp_name_equal(p_grid1, 1, 3, "panel-3-1.14-7-14-7")
-    expect_vp_name_equal(p_grid1, 2, 3, "panel-3-2.14-9-14-9")
+    expect_vp_name_equal(p_grid1, 1, 3, "panel-1-3.14-7-14-7")
+    expect_vp_name_equal(p_grid1, 2, 3, "panel-2-3.14-9-14-9")
 })
 
 
@@ -158,7 +158,7 @@ test_that("Panel viewports can be activated", {
     p <- ggplot(df, aes(x, y))
     p_grid1 <- p + facet_grid(a~b, as.table = TRUE)
     check_activated_vp(p_grid1, 1, 1, "panel-1-1.10-7-10-7")
-    check_activated_vp(p_grid1, 2, 3, "panel-3-2.14-9-14-9")
+    check_activated_vp(p_grid1, 2, 3, "panel-2-3.14-9-14-9")
 })
 
 
