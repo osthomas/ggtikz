@@ -51,8 +51,8 @@ get_padding_from_elements <- function(gg_plot, elements_t, elements_r, elements_
     elements <- unique(c(elements_t, elements_r, elements_b, elements_l))
 
     lwds <- sapply(elements, function(element) {
-        el <- ggplot2::calc_element(element, p_theme)
-        grob <- ggplot2::element_grob(el)
+        el <- calc_element(element, p_theme)
+        grob <- element_grob(el)
         lwd <- grob$gp$lwd
         if (is.null(lwd) || is.na(lwd)) lwd <- 0
         return(lwd)

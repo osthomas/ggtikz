@@ -54,8 +54,8 @@ ggtikzCanvas <- function(gg_plot) {
     # For coordinate calculations and panel localisation, information at different
     # steps of the ggplot build process is required.
     # Calculate them once for later access.
-    built <- ggplot2::ggplot_build(gg_plot)
-    gtable <- ggplot2::ggplot_gtable(built)
+    built <- ggplot_build(gg_plot)
+    gtable <- ggplot_gtable(built)
 
     self <- structure(
         list(
