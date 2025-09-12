@@ -1,10 +1,9 @@
-This is a maintenance release to 0.1.3.
+This is a maintenance release to 0.1.4.
 
-It addresses test failures due to changes in a required upstream package and
-updates the maintainer's contact information.
+It addresses test failures due to changes in ggplot2 4.0.0.
 
 ## Test environments
-* local Linux install, R 4.3.3
+* local Linux install, R 4.4.3
 * Github Actions:
     - MacOS-latest (R release)
     - windows-latest (R release)
@@ -13,9 +12,4 @@ updates the maintainer's contact information.
     - ubuntu-latest (R oldrel-1)
 
 ## R CMD check results
-There were no ERRORs or WARNINGs.
-
-There was one NOTE:
-
-A previous version of ggtikz was removed from CRAN due to an expired
-institutional email address. This has been fixed.
+There were no ERRORs, WARNINGs or NOTEs.

@@ -1,5 +1,3 @@
-library(ggplot2)
-library(ggtikz)
 p <- ggplot()
 
 test_that("annotations cannot be constructed faultily", {

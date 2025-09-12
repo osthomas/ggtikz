@@ -1,8 +1,3 @@
-library(ggplot2)
-library(tikzDevice)
-library(ggtikz)
-
-
 test_ggtikz <- function() {
     p <- ggplot()
     ggtikz(p, "\\draw (0,0) -- (1,1);", xy = "plot")

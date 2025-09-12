@@ -1,5 +1,3 @@
-library(ggplot2)
-library(ggtikz)
 plus1 <- function(x) x + 1
 plus2 <- function(x) x + 2
 
