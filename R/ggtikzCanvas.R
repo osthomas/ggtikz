@@ -76,6 +76,29 @@ ggtikzCanvas <- function(gg_plot) {
 print.ggtikzCanvas <- function(x, ...) draw_annotations(x)
 
 
+#' Return dense rank of a sequence
+#'
+#' dense_rank assigns the smallest number to a tie, and does not leave gaps
+#' after ties.
+#'
+#' @param x an orderable vector
+#'
+#' @seealso \code{\link[dplyr]{dense_rank}}
+dense_rank <- function(x) {
+    out <- integer(length = length(x))
+    order_ <- order(x)
+    rank_ <- 1
+    max_ <- x[order_][1]
+    for (i in order(x)) {
+        if (x[i] > max_) {
+            max_ <- x[i]
+            rank_ <- rank_ + 1
+        }
+        out[i] <- rank_
+    }
+    return(out)
+}
+
 #' @export
 get_panel_info.ggtikzCanvas <- function(self, ...) {
     gtable <- self$gtable
@@ -84,8 +107,8 @@ get_panel_info.ggtikzCanvas <- function(self, ...) {
     panel_info <- gtable$layout[grepl("^panel", gtable$layout$name),]
 
     # The position of the panels in the panel matrix (corresponding to visual)
-    panel_info$COL <- dplyr::dense_rank(panel_info$l)
-    panel_info$ROW <- dplyr::dense_rank(panel_info$t)
+    panel_info$COL <- dense_rank(panel_info$l)
+    panel_info$ROW <- dense_rank(panel_info$t)
 
     # Match the indices of the panels in the built$layout$panel_params list to
     # the ROWs and COLs of the panels
