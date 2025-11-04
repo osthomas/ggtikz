@@ -26,6 +26,6 @@ test_that("coordinates are split correctly", {
 })
 
 test_that("coordinates are replaced correctly", {
-    f <- function(x) "A"
+    f <- function(x) rep("A", length(x))
     expect_equal(replace_coords("\\draw (0,0) (1,1);", f), "\\draw A A;")
 })

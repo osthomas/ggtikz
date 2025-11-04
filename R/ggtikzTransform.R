@@ -87,8 +87,8 @@ transform_coord <- function(coord, transform_x, transform_y) {
 
 
 transform_tikz <- function(tikz_code, transform_x, transform_y) {
-    replace_func <- function(coord) {
-        transform_coord(coord, transform_x, transform_y)
+    replace_func <- function(coords) {
+        vapply(coords, function(coord) transform_coord(coord, transform_x, transform_y), character(1))
     }
     result <- replace_coords(tikz_code, replace_func)
 
