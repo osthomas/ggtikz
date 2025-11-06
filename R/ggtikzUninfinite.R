@@ -74,8 +74,8 @@ uninfinite_coord <- function(coord, xrange, yrange) {
 #' @rdname uninfinite_coord
 #' @param tikz_code The TikZ code to replace Infinite values in.
 uninfinite_tikz <- function(tikz_code, xrange, yrange) {
-    replace_func <- function(coord) {
-        uninfinite_coord(coord, xrange, yrange)
+    replace_func <- function(coords) {
+        vapply(coords, function(coord) uninfinite_coord(coord, xrange, yrange), character(1))
     }
     result <- replace_coords(tikz_code, replace_func)
 }
